@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="wordpadneo.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:wordpadneo.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="WordPad Neo">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <MenuBar Grid.Row="0">
+            <MenuBarItem Title="ファイル">
+                <MenuFlyoutItem Text="新規..." Click="NewButton_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="N" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="開く..." Click="OpenButton_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="O" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="保存" Click="SaveButton_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="S" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="名前を付けて保存..." Click="SaveAsButton_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="S" Modifiers="Control, Shift" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Text="印刷..." Click="PrintButton_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="P" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="ページ設定..." Click="PageSetupButton_Click" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Text="終了" Click="ExitButton_Click" />
+            </MenuBarItem>
+
+            <MenuBarItem Title="編集">
+                <MenuFlyoutItem Text="元に戻す" Click="UndoButton_Click" />
+                <MenuFlyoutItem Text="やり直し" Click="RedoButton_Click" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Text="切り取り" Click="CutButton_Click" />
+                <MenuFlyoutItem Text="コピー" Click="CopyButton_Click" />
+                <MenuFlyoutItem Text="貼り付け" Click="PasteButton_Click" />
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Text="検索..." Click="FindButton_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="置換..." Click="ReplaceButton_Click">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="H" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+            </MenuBarItem>
+
+            <MenuBarItem Title="ヘルプ">
+                <MenuFlyoutItem Text="WordPad Neoについて..." Click="AboutButton_Click" />
+            </MenuBarItem>
+        </MenuBar>
+
+        <CommandBar Grid.Row="1" DefaultLabelPosition="Collapsed" HorizontalAlignment="Left" OverflowButtonVisibility="Collapsed">
+            <AppBarButton Icon="Document" IsCompact="True" ToolTipService.ToolTip="新規作成" Click="NewButton_Click" Width="40" />
+            <AppBarButton IsCompact="True" ToolTipService.ToolTip="開く" Click="OpenButton_Click" Width="40">
+                <FontIcon Glyph="&#xE838;" />
+            </AppBarButton>
+            <AppBarButton Icon="Save" IsCompact="True" ToolTipService.ToolTip="保存" Click="SaveButton_Click" Width="40" />
+            <AppBarButton Icon="Print" IsCompact="True" ToolTipService.ToolTip="印刷" Click="PrintButton_Click" Width="40" />
+
+            <AppBarSeparator />
+
+            <AppBarElementContainer VerticalAlignment="Center">
+                <ComboBox x:Name="fontComboBox"
+                          Width="180"
+                          Margin="4,0"
+                          PlaceholderText="フォントを選択"
+                          IsEditable="True"
+                          SelectionChanged="FontComboBox_SelectionChanged" />
+            </AppBarElementContainer>
+
+            <AppBarElementContainer VerticalAlignment="Center">
+                <ComboBox x:Name="fontSizeComboBox"
+                          Width="80"
+                          Margin="4,0"
+                          PlaceholderText="サイズ"
+                          IsEditable="True"
+                          SelectionChanged="FontSizeComboBox_SelectionChanged" />
+            </AppBarElementContainer>
+
+            <AppBarToggleButton x:Name="boldButton" Icon="Bold" IsCompact="True" ToolTipService.ToolTip="太字" Click="BoldButton_Click" Width="40" />
+            <AppBarToggleButton x:Name="italicButton" Icon="Italic" IsCompact="True" ToolTipService.ToolTip="斜体" Click="ItalicButton_Click" Width="40" />
+            <AppBarToggleButton x:Name="underlineButton" Icon="Underline" IsCompact="True" ToolTipService.ToolTip="下線" Click="UnderlineButton_Click" Width="40" />
+            <AppBarToggleButton x:Name="strikethroughButton" IsCompact="True" ToolTipService.ToolTip="取り消し線" Click="StrikethroughButton_Click" Width="40">
+                <AppBarToggleButton.Icon>
+                    <FontIcon Glyph="&#xEDE0;" />
+                </AppBarToggleButton.Icon>
+            </AppBarToggleButton>
+
+            <AppBarSeparator />
+
+            <AppBarButton Icon="FontColor" IsCompact="True" ToolTipService.ToolTip="文字色" Width="40">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <ColorPicker x:Name="fontColorPicker"
+                                     IsColorSliderVisible="True"
+                                     IsColorChannelTextInputVisible="False"
+                                     IsHexInputVisible="False"
+                                     IsAlphaEnabled="False"
+                                     ColorChanged="FontColorPicker_ColorChanged" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton IsCompact="True" ToolTipService.ToolTip="背景色" Width="40">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE7E6;" />
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <ColorPicker x:Name="backgroundColorPicker"
+                                     IsColorSliderVisible="True"
+                                     IsColorChannelTextInputVisible="False"
+                                     IsHexInputVisible="False"
+                                     IsAlphaEnabled="False"
+                                     ColorChanged="BackgroundColorPicker_ColorChanged" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+
+            <AppBarSeparator />
+
+            <AppBarToggleButton x:Name="alignLeftButton" Icon="AlignLeft" IsCompact="True" ToolTipService.ToolTip="左揃え" Click="AlignLeftButton_Click" Width="40" />
+            <AppBarToggleButton x:Name="alignCenterButton" Icon="AlignCenter" IsCompact="True" ToolTipService.ToolTip="中央揃え" Click="AlignCenterButton_Click" Width="40" />
+            <AppBarToggleButton x:Name="alignRightButton" Icon="AlignRight" IsCompact="True" ToolTipService.ToolTip="右揃え" Click="AlignRightButton_Click" Width="40" />
+            <AppBarToggleButton x:Name="alignJustifyButton" IsCompact="True" ToolTipService.ToolTip="両端揃え" Click="AlignJustifyButton_Click" Width="40">
+                <AppBarToggleButton.Icon>
+                    <FontIcon Glyph="&#xE700;" />
+                </AppBarToggleButton.Icon>
+            </AppBarToggleButton>
+        </CommandBar>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Canvas x:Name="rulerCanvas" 
+                    Grid.Row="0"
+                    Height="28"
+                    HorizontalAlignment="Center"
+                    SizeChanged="RulerCanvas_SizeChanged" />
+
+            <ScrollViewer Grid.Row="1" 
+                          HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Auto">
+
+                <RichEditBox x:Name="editor"
+                             PreviewKeyDown="Editor_PreviewKeyDown"
+                             TextChanged="Editor_TextChanged"
+                             Background="White"
+                             BorderThickness="1,0,1,0" 
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Stretch"
+                             Loaded="Editor_Loaded"
+                             CornerRadius="0"
+                             SelectionChanged="Editor_SelectionChanged">
+                    <RichEditBox.Resources>
+                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
+                    </RichEditBox.Resources>
+                </RichEditBox>
+
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

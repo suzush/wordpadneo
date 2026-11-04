@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "wordpadneo (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "wordpadneo (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
