@@ -25,9 +25,16 @@ namespace wordpadneo.Views
 
         public MainWindow()
         {
+            System.Diagnostics.Debug.WriteLine("A: 初期化開始");
+
             InitializeComponent();
-            PopulateFontList();
+
+            System.Diagnostics.Debug.WriteLine("B: XAML初期化成功");
+
+            // PopulateFontList();
             PopulateFontSizeList();
+
+            System.Diagnostics.Debug.WriteLine("C: 初期化終了");
             _isFileSaved = true;
             AppWindow.Closing += AppWindow_Closing;
         }
