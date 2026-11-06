@@ -31,7 +31,7 @@ namespace wordpadneo.Views
 
             System.Diagnostics.Debug.WriteLine("B: XAML初期化成功");
 
-            // PopulateFontList();
+            PopulateFontList();
             PopulateFontSizeList();
 
             System.Diagnostics.Debug.WriteLine("C: 初期化終了");
