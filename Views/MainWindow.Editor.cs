@@ -27,7 +27,13 @@ namespace wordpadneo.Views
             string[] fontFamilies = CanvasTextFormat.GetSystemFontFamilies();
             if (fontComboBox != null)
             {
-                fontComboBox.ItemsSource = fontFamilies.OrderBy(f => f).ToList();
+                fontComboBox.Items.Clear();
+                foreach (string family in fontFamilies
+                    .Where(f => !string.IsNullOrWhiteSpace(f))
+                    .OrderBy(f => f, StringComparer.CurrentCultureIgnoreCase))
+                {
+                    fontComboBox.Items.Add(family);
+                }
             }
         }
 
@@ -38,11 +44,19 @@ namespace wordpadneo.Views
         {
             List<string> fontSizes = new List<string>
             {
-                "8", "9", "10", "10.5", "11", "12", "14", "16", "18", "20", "22", "24", "26", "28", "36", "48", "72"
+                "8", "9", "10", "10.5", "11", "12", "14",
+                "16", "18", "20", "22", "24", "26", "28",
+                "36", "48", "72"
             };
+
             if (fontSizeComboBox != null)
             {
-                fontSizeComboBox.ItemsSource = fontSizes;
+                fontSizeComboBox.Items.Clear();
+
+                foreach (string fontSize in fontSizes)
+                {
+                    fontSizeComboBox.Items.Add(fontSize);
+                }
             }
         }
 
