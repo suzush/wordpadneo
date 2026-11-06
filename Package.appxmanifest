@@ -10,7 +10,7 @@
   <Identity
     Name="SuzushLabs.WordPadNeo"
     Publisher="CN=4079D483-CF3D-4C5B-A7EF-92232EF1051A"
-    Version="1.0.0.0" />
+    Version="0.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="c2f23900-42d2-400a-9d3d-8c570c32455c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
