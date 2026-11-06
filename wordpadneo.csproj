@@ -12,6 +12,7 @@
     <WinUISDKReferences>false</WinUISDKReferences>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
+    <SelfContained>true</SelfContained>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-16.png" />
@@ -117,10 +118,17 @@
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <PublishAot>True</PublishAot>
+    <PublishAot>False</PublishAot>
     <AssemblyName></AssemblyName>
     <AssemblyTitle></AssemblyTitle>
     <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
 </Project>
