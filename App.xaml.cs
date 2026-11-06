@@ -45,6 +45,15 @@ namespace wordpadneo
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             _window = new MainWindow();
+            
+            string iconPath = System.IO.Path.Combine(
+                AppContext.BaseDirectory,
+                "Assets",
+                "app.ico"
+            );
+
+            _window.AppWindow.SetIcon(iconPath);
+
             _window.Activate();
         }
     }
