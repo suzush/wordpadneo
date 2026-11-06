@@ -25,13 +25,13 @@
                    HorizontalAlignment="Center"/>
 
         <TextBlock x:Name="VersionText" 
-                   Text="Version 1.0.0" 
+                   Text="Version 0.1" 
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                    HorizontalAlignment="Center"/>
 
         <MenuFlyoutSeparator Margin="0,5,0,5"/>
 
-        <TextBlock Text="© 2026 suzush" 
+        <TextBlock Text="© 2026 Suzush Labs" 
                    FontSize="12" 
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
     </StackPanel>
