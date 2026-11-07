@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+	<value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+	<value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+	<value>System.Resources.ResXResourceReader, System.Windows.Forms, ...</value>
+  </resheader>
+  <resheader name="writer">
+	<value>System.Resources.ResXResourceWriter, System.Windows.Forms, ...</value>
+  </resheader>
+
+  <data name="MainWindow_FileMenu.Title" xml:space="preserve"><value>File</value></data>
+  <data name="MainWindow_NewMenuItem.Text" xml:space="preserve"><value>New...</value></data>
+  <data name="MainWindow_OpenMenuItem.Text" xml:space="preserve"><value>Open...</value></data>
+  <data name="MainWindow_SaveMenuItem.Text" xml:space="preserve"><value>Save</value></data>
+  <data name="MainWindow_SaveAsMenuItem.Text" xml:space="preserve"><value>Save As...</value></data>
+  <data name="MainWindow_PrintMenuItem.Text" xml:space="preserve"><value>Print...</value></data>
+  <data name="MainWindow_PageSetupMenuItem.Text" xml:space="preserve"><value>Page Setup...</value></data>
+  <data name="MainWindow_ExitMenuItem.Text" xml:space="preserve"><value>Exit</value></data>
+
+  <data name="MainWindow_EditMenu.Title" xml:space="preserve"><value>Edit</value></data>
+  <data name="MainWindow_UndoMenuItem.Text" xml:space="preserve"><value>Undo</value></data>
+  <data name="MainWindow_RedoMenuItem.Text" xml:space="preserve"><value>Redo</value></data>
+  <data name="MainWindow_CutMenuItem.Text" xml:space="preserve"><value>Cut</value></data>
+  <data name="MainWindow_CopyMenuItem.Text" xml:space="preserve"><value>Copy</value></data>
+  <data name="MainWindow_PasteMenuItem.Text" xml:space="preserve"><value>Paste</value></data>
+  <data name="MainWindow_FindMenuItem.Text" xml:space="preserve"><value>Find...</value></data>
+  <data name="MainWindow_ReplaceMenuItem.Text" xml:space="preserve"><value>Replace...</value></data>
+
+  <data name="MainWindow_HelpMenu.Title" xml:space="preserve"><value>Help</value></data>
+  <data name="MainWindow_AboutMenuItem.Text" xml:space="preserve"><value>About WordPad Neo...</value></data>
+
+  <data name="MainWindow_NewToolbarButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>New</value></data>
+  <data name="MainWindow_OpenToolbarButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Open</value></data>
+  <data name="MainWindow_SaveToolbarButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Save</value></data>
+  <data name="MainWindow_PrintToolbarButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Print</value></data>
+  <data name="MainWindow_FontComboBox.PlaceholderText" xml:space="preserve"><value>Select font</value></data>
+  <data name="MainWindow_FontSizeComboBox.PlaceholderText" xml:space="preserve"><value>Size</value></data>
+  <data name="MainWindow_BoldButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Bold</value></data>
+  <data name="MainWindow_ItalicButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Italic</value></data>
+  <data name="MainWindow_UnderlineButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Underline</value></data>
+  <data name="MainWindow_StrikethroughButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Strikethrough</value></data>
+  <data name="MainWindow_FontColorButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Font color</value></data>
+  <data name="MainWindow_BackgroundColorButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Highlight color</value></data>
+  <data name="MainWindow_AlignLeftButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Align left</value></data>
+  <data name="MainWindow_AlignCenterButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Align center</value></data>
+  <data name="MainWindow_AlignRightButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Align right</value></data>
+  <data name="MainWindow_AlignJustifyButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Justify</value></data>
+
+  <data name="AboutDialog.Title" xml:space="preserve"><value>About</value></data>
+  <data name="AboutDialog.PrimaryButtonText" xml:space="preserve"><value>Close</value></data>
+  <data name="AboutDialog_CopyrightText.Text" xml:space="preserve"><value>© 2026 Suzush Labs</value></data>
+
+  <data name="PageSetupDialog.Title" xml:space="preserve"><value>Page Setup</value></data>
+  <data name="PageSetupDialog.PrimaryButtonText" xml:space="preserve"><value>OK</value></data>
+  <data name="PageSetupDialog.CloseButtonText" xml:space="preserve"><value>Cancel</value></data>
+  <data name="PageSetupDialog_PaperCombo.Header" xml:space="preserve"><value>Paper size</value></data>
+  <data name="PageSetupDialog_PaperA3.Content" xml:space="preserve"><value>A3 (29.7 x 42.0 cm)</value></data>
+  <data name="PageSetupDialog_PaperA4.Content" xml:space="preserve"><value>A4 (21.0 x 29.7 cm)</value></data>
+  <data name="PageSetupDialog_PaperA5.Content" xml:space="preserve"><value>A5 (14.8 x 21.0 cm)</value></data>
+  <data name="PageSetupDialog_PaperA6.Content" xml:space="preserve"><value>A6 (10.5 x 14.8 cm)</value></data>
+  <data name="PageSetupDialog_PaperB4.Content" xml:space="preserve"><value>B4 (25.7 x 36.4 cm)</value></data>
+  <data name="PageSetupDialog_PaperB5.Content" xml:space="preserve"><value>B5 (18.2 x 25.7 cm)</value></data>
+  <data name="PageSetupDialog_PaperB6.Content" xml:space="preserve"><value>B6 (12.8 x 18.2 cm)</value></data>
+  <data name="PageSetupDialog_PaperLetter.Content" xml:space="preserve"><value>Letter (21.59 x 27.94 cm)</value></data>
+  <data name="PageSetupDialog_PaperL.Content" xml:space="preserve"><value>L (8.9 x 12.7 cm)</value></data>
+  <data name="PageSetupDialog_Paper2L.Content" xml:space="preserve"><value>2L (12.7 x 17.8 cm)</value></data>
+  <data name="PageSetupDialog_PaperPostcard.Content" xml:space="preserve"><value>Postcard (10.0 x 14.8 cm)</value></data>
+  <data name="PageSetupDialog_PaperChokei3.Content" xml:space="preserve"><value>Chokei 3 (12.0 x 23.5 cm)</value></data>
+  <data name="PageSetupDialog_PaperChokei4.Content" xml:space="preserve"><value>Chokei 4 (9.0 x 20.5 cm)</value></data>
+  <data name="PageSetupDialog_PaperYoukei2.Content" xml:space="preserve"><value>Youkei 2 (11.4 x 16.2 cm)</value></data>
+  <data name="PageSetupDialog_PaperYoukei4.Content" xml:space="preserve"><value>Youkei 4 (10.5 x 23.5 cm)</value></data>
+  <data name="PageSetupDialog_TopMargin.Header" xml:space="preserve"><value>Top margin (cm)</value></data>
+  <data name="PageSetupDialog_BottomMargin.Header" xml:space="preserve"><value>Bottom margin (cm)</value></data>
+  <data name="PageSetupDialog_LeftMargin.Header" xml:space="preserve"><value>Left margin (cm)</value></data>
+  <data name="PageSetupDialog_RightMargin.Header" xml:space="preserve"><value>Right margin (cm)</value></data>
+
+  <data name="Common_AppName" xml:space="preserve"><value>WordPad Neo</value></data>
+  <data name="Common_Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="MainWindow_DefaultDocumentName" xml:space="preserve"><value>Document</value></data>
+  <data name="MainWindow_PrintJobName" xml:space="preserve"><value>Document Print</value></data>
+
+  <data name="FindDialog_SearchPlaceholder" xml:space="preserve"><value>Enter text to search...</value></data>
+  <data name="FindDialog_Title" xml:space="preserve"><value>Find</value></data>
+  <data name="FindDialog_Prompt" xml:space="preserve"><value>Enter the text you want to find:</value></data>
+  <data name="FindDialog_NextButton" xml:space="preserve"><value>Find Next</value></data>
+  <data name="FindDialog_PreviousButton" xml:space="preserve"><value>Find Previous</value></data>
+
+  <data name="ReplaceDialog_FindPlaceholder" xml:space="preserve"><value>Find what</value></data>
+  <data name="ReplaceDialog_ReplacePlaceholder" xml:space="preserve"><value>Replace with</value></data>
+  <data name="ReplaceDialog_Title" xml:space="preserve"><value>Replace</value></data>
+  <data name="ReplaceDialog_FindLabel" xml:space="preserve"><value>Find what:</value></data>
+  <data name="ReplaceDialog_ReplaceLabel" xml:space="preserve"><value>Replace with:</value></data>
+  <data name="ReplaceDialog_ReplaceButton" xml:space="preserve"><value>Replace</value></data>
+  <data name="ReplaceDialog_ReplaceAllButton" xml:space="preserve"><value>Replace All</value></data>
+
+  <data name="CloseDocumentDialog_Title" xml:space="preserve"><value>Do you want to save your changes?</value></data>
+  <data name="CloseDocumentDialog_Content" xml:space="preserve"><value>If you don’t save, your edits will be lost.</value></data>
+  <data name="CloseDocumentDialog_SaveButton" xml:space="preserve"><value>Save</value></data>
+  <data name="CloseDocumentDialog_DontSaveButton" xml:space="preserve"><value>Don't Save</value></data>
+
+  <data name="AboutDialog_VersionFormat" xml:space="preserve"><value>Version {0}.{1}.{2}</value></data>
+</root>

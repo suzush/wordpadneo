@@ -8,24 +8,24 @@ using wordpadneo.Models;
 namespace wordpadneo.Helpers
 {
     /// <summary>
-    /// RichEdit の RTF 文書を Windows の GDI 印刷機能で印刷するためのヘルパークラスです。
+    /// Provides helper methods for printing RichEdit RTF documents using Windows GDI printing.
     /// </summary>
     public static class PrintHelper
     {
         /// <summary>
-        /// 矩形領域の座標を保持する Win32 構造体です。
+        /// A Win32 structure that stores the coordinates of a rectangle.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         private struct RECT { public int left, top, right, bottom; }
 
         /// <summary>
-        /// RichEdit の文字範囲を保持する構造体です。
+        /// A structure that stores a RichEdit character range.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         private struct CHARRANGE { public int cpMin, cpMax; }
 
         /// <summary>
-        /// RichEdit のページ描画範囲と描画先 DC を指定する構造体です。
+        /// A structure that specifies the RichEdit page layout bounds and destination device context.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         private struct FORMATRANGE
@@ -36,7 +36,7 @@ namespace wordpadneo.Helpers
         }
 
         /// <summary>
-        /// GDI 印刷ジョブの文書情報を指定する構造体です。
+        /// A structure that specifies document information for a GDI print job.
         /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct DOCINFO
@@ -49,7 +49,7 @@ namespace wordpadneo.Helpers
         }
 
         /// <summary>
-        /// RichEdit へのテキスト設定方法とコードページを指定する構造体です。
+        /// A structure that specifies text-setting options and the code page for RichEdit.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         private struct SETTEXTEX
@@ -59,38 +59,38 @@ namespace wordpadneo.Helpers
         }
 
         /// <summary>
-        /// 指定された DLL を現在のプロセスに読み込みます。
+        /// Loads the specified DLL into the current process.
         /// </summary>
-        /// <param name="name">読み込む DLL の名前またはパス。</param>
-        /// <returns>成功時はモジュールハンドル、失敗時は <see cref="IntPtr.Zero"/>。</returns>
+        /// <param name="name">The name or path of the DLL to load.</param>
+        /// <returns>The module handle on success; <see cref="IntPtr.Zero"/> on failure.</returns>
         [DllImport("kernel32.dll", EntryPoint = "LoadLibraryW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string name);
 
         /// <summary>
-        /// 読み込んだ DLL の参照カウントを減らし、必要に応じて解放します。
+        /// Decrements the reference count of a loaded DLL and unloads it when appropriate.
         /// </summary>
-        /// <param name="module">解放するモジュールのハンドル。</param>
-        /// <returns>成功した場合は <see langword="true"/>。</returns>
+        /// <param name="module">The handle of the module to release.</param>
+        /// <returns><see langword="true"/> if successful.</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FreeLibrary(IntPtr module);
 
         /// <summary>
-        /// 指定したウィンドウクラスの Win32 ウィンドウを作成します。
+        /// Creates a Win32 window of the specified window class.
         /// </summary>
-        /// <param name="exStyle">拡張ウィンドウスタイル。</param>
-        /// <param name="className">登録済みウィンドウクラス名。</param>
-        /// <param name="windowName">ウィンドウ名。</param>
-        /// <param name="style">ウィンドウスタイル。</param>
-        /// <param name="x">左上の X 座標。</param>
-        /// <param name="y">左上の Y 座標。</param>
-        /// <param name="width">ウィンドウの幅。</param>
-        /// <param name="height">ウィンドウの高さ。</param>
-        /// <param name="parent">親ウィンドウのハンドル。</param>
-        /// <param name="menu">メニューまたは子ウィンドウ ID。</param>
-        /// <param name="instance">ウィンドウクラスに対応するモジュールハンドル。</param>
-        /// <param name="param">作成時に渡す追加データへのポインター。</param>
-        /// <returns>成功時はウィンドウハンドル、失敗時は <see cref="IntPtr.Zero"/>。</returns>
+        /// <param name="exStyle">The extended window style.</param>
+        /// <param name="className">The name of the registered window class.</param>
+        /// <param name="windowName">The window name.</param>
+        /// <param name="style">The window style.</param>
+        /// <param name="x">The X coordinate of the upper-left corner.</param>
+        /// <param name="y">The Y coordinate of the upper-left corner.</param>
+        /// <param name="width">The window width.</param>
+        /// <param name="height">The window height.</param>
+        /// <param name="parent">The parent window handle.</param>
+        /// <param name="menu">The menu handle or child window identifier.</param>
+        /// <param name="instance">The module handle associated with the window class.</param>
+        /// <param name="param">A pointer to additional data passed during window creation.</param>
+        /// <returns>The window handle on success; <see cref="IntPtr.Zero"/> on failure.</returns>
         [DllImport("user32.dll", EntryPoint = "CreateWindowExW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr CreateWindowEx(
             int exStyle, string className, string windowName, int style,
@@ -98,125 +98,125 @@ namespace wordpadneo.Helpers
             IntPtr parent, IntPtr menu, IntPtr instance, IntPtr param);
 
         /// <summary>
-        /// Win32 ウィンドウを破棄します。
+        /// Destroys a Win32 window.
         /// </summary>
-        /// <param name="hwnd">破棄するウィンドウのハンドル。</param>
-        /// <returns>成功した場合は <see langword="true"/>。</returns>
+        /// <param name="hwnd">The handle of the window to destroy.</param>
+        /// <returns><see langword="true"/> if successful.</returns>
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool DestroyWindow(IntPtr hwnd);
 
         /// <summary>
-        /// RichEdit に EM_SETTEXTEX メッセージを送信して RTF データを設定します。
+        /// Sends the EM_SETTEXTEX message to RichEdit to set RTF data.
         /// </summary>
-        /// <param name="hwnd">RichEdit ウィンドウのハンドル。</param>
-        /// <param name="message">送信するメッセージ番号。</param>
-        /// <param name="options">テキスト設定オプション。</param>
-        /// <param name="text">読み込ませるデータへのポインター。</param>
-        /// <returns>ウィンドウプロシージャが返す処理結果。</returns>
+        /// <param name="hwnd">The RichEdit window handle.</param>
+        /// <param name="message">The message identifier to send.</param>
+        /// <param name="options">The text-setting options.</param>
+        /// <param name="text">A pointer to the data to load.</param>
+        /// <returns>The result returned by the window procedure.</returns>
         [DllImport("user32.dll", EntryPoint = "SendMessageW")]
         private static extern IntPtr SendMessageSetText(IntPtr hwnd, uint message,
             ref SETTEXTEX options, IntPtr text);
 
         /// <summary>
-        /// RichEdit に EM_FORMATRANGE メッセージを送信し、指定範囲を組版・描画します。
+        /// Sends EM_FORMATRANGE to RichEdit to format and render the specified range.
         /// </summary>
-        /// <param name="hwnd">RichEdit ウィンドウのハンドル。</param>
-        /// <param name="message">送信するメッセージ番号。</param>
-        /// <param name="render">描画する場合は 0 以外、計測のみの場合は 0。</param>
-        /// <param name="formatRange">描画先および文字範囲の設定。</param>
-        /// <returns>処理された最後の文字の次の位置。</returns>
+        /// <param name="hwnd">The RichEdit window handle.</param>
+        /// <param name="message">The message identifier to send.</param>
+        /// <param name="render">Nonzero to render; zero to measure only.</param>
+        /// <param name="formatRange">The rendering destination and character-range settings.</param>
+        /// <returns>The position immediately after the last processed character.</returns>
         [DllImport("user32.dll", EntryPoint = "SendMessageW")]
         private static extern IntPtr SendMessageFormatRange(IntPtr hwnd, uint message,
             IntPtr render, ref FORMATRANGE formatRange);
 
         /// <summary>
-        /// 指定したウィンドウに汎用の Win32 メッセージを同期送信します。
+        /// Synchronously sends a general Win32 message to the specified window.
         /// </summary>
-        /// <param name="hwnd">送信先ウィンドウのハンドル。</param>
-        /// <param name="message">メッセージ番号。</param>
-        /// <param name="wParam">メッセージ固有の第 1 パラメーター。</param>
-        /// <param name="lParam">メッセージ固有の第 2 パラメーター。</param>
-        /// <returns>ウィンドウプロシージャからの戻り値。</returns>
+        /// <param name="hwnd">The destination window handle.</param>
+        /// <param name="message">The message identifier.</param>
+        /// <param name="wParam">The first message-specific parameter.</param>
+        /// <param name="lParam">The second message-specific parameter.</param>
+        /// <returns>The value returned by the window procedure.</returns>
         [DllImport("user32.dll", EntryPoint = "SendMessageW")]
         private static extern IntPtr SendMessageGeneral(IntPtr hwnd, uint message,
             IntPtr wParam, IntPtr lParam);
 
         /// <summary>
-        /// RichEdit の選択範囲を CHARRANGE 構造体として取得します。
+        /// Retrieves the RichEdit selection as a CHARRANGE structure.
         /// </summary>
-        /// <param name="hwnd">RichEdit ウィンドウのハンドル。</param>
-        /// <param name="message">送信するメッセージ番号。</param>
-        /// <param name="wParam">このメッセージでは使用しないパラメーター。</param>
-        /// <param name="range">取得した選択範囲の出力先。</param>
-        /// <returns>ウィンドウプロシージャからの戻り値。</returns>
+        /// <param name="hwnd">The RichEdit window handle.</param>
+        /// <param name="message">The message identifier to send.</param>
+        /// <param name="wParam">A parameter unused by this message.</param>
+        /// <param name="range">Receives the retrieved selection range.</param>
+        /// <returns>The value returned by the window procedure.</returns>
         [DllImport("user32.dll", EntryPoint = "SendMessageW")]
         private static extern IntPtr SendMessageGetSelection(IntPtr hwnd, uint message,
             IntPtr wParam, out CHARRANGE range);
 
         /// <summary>
-        /// プリンター DC の DPI や印刷可能領域などのデバイス情報を取得します。
+        /// Retrieves printer device information, such as DPI and printable area, from the device context.
         /// </summary>
-        /// <param name="hdc">プリンターのデバイスコンテキスト。</param>
-        /// <param name="index">取得するデバイス能力の識別子。</param>
-        /// <returns>指定した項目の値。項目によって戻り値の意味が異なります。</returns>
+        /// <param name="hdc">The printer device context.</param>
+        /// <param name="index">The identifier of the device capability to retrieve.</param>
+        /// <returns>The requested capability value; its meaning depends on the specified item.</returns>
         [DllImport("gdi32.dll")]
         private static extern int GetDeviceCaps(IntPtr hdc, int index);
         /// <summary>
-        /// GDI の印刷ジョブを開始します。
+        /// Starts a GDI print job.
         /// </summary>
-        /// <param name="hdc">プリンターのデバイスコンテキスト。</param>
-        /// <param name="di">印刷ジョブの文書情報。</param>
-        /// <returns>成功時は正のジョブ ID、失敗時は 0 以下の値。</returns>
+        /// <param name="hdc">The printer device context.</param>
+        /// <param name="di">The document information for the print job.</param>
+        /// <returns>A positive print job ID on success; zero or a negative value on failure.</returns>
         [DllImport("gdi32.dll", EntryPoint = "StartDocW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int StartDoc(IntPtr hdc, ref DOCINFO di);
         /// <summary>
-        /// 現在の GDI 印刷ジョブを正常終了します。
+        /// Completes the current GDI print job.
         /// </summary>
-        /// <param name="hdc">プリンターのデバイスコンテキスト。</param>
-        /// <returns>成功時は正の値、失敗時は 0 以下の値。</returns>
+        /// <param name="hdc">The printer device context.</param>
+        /// <returns>A positive value on success; zero or a negative value on failure.</returns>
         [DllImport("gdi32.dll", SetLastError = true)] private static extern int EndDoc(IntPtr hdc);
         /// <summary>
-        /// 現在の GDI 印刷ジョブを中止します。
+        /// Aborts the current GDI print job.
         /// </summary>
-        /// <param name="hdc">プリンターのデバイスコンテキスト。</param>
-        /// <returns>成功時は正の値、失敗時は 0 以下の値。</returns>
+        /// <param name="hdc">The printer device context.</param>
+        /// <returns>A positive value on success; zero or a negative value on failure.</returns>
         [DllImport("gdi32.dll", SetLastError = true)] private static extern int AbortDoc(IntPtr hdc);
         /// <summary>
-        /// 印刷ジョブ内の新しいページを開始します。
+        /// Starts a new page in the print job.
         /// </summary>
-        /// <param name="hdc">プリンターのデバイスコンテキスト。</param>
-        /// <returns>成功時は正の値、失敗時は 0 以下の値。</returns>
+        /// <param name="hdc">The printer device context.</param>
+        /// <returns>A positive value on success; zero or a negative value on failure.</returns>
         [DllImport("gdi32.dll", SetLastError = true)] private static extern int StartPage(IntPtr hdc);
         /// <summary>
-        /// 現在の印刷ページを終了します。
+        /// Ends the current print page.
         /// </summary>
-        /// <param name="hdc">プリンターのデバイスコンテキスト。</param>
-        /// <returns>成功時は正の値、失敗時は 0 以下の値。</returns>
+        /// <param name="hdc">The printer device context.</param>
+        /// <returns>A positive value on success; zero or a negative value on failure.</returns>
         [DllImport("gdi32.dll", SetLastError = true)] private static extern int EndPage(IntPtr hdc);
         /// <summary>
-        /// デバイスコンテキストの現在の描画状態を保存します。
+        /// Saves the current drawing state of the device context.
         /// </summary>
-        /// <param name="hdc">状態を保存するデバイスコンテキスト。</param>
-        /// <returns>成功時は保存状態を表す正の識別子、失敗時は 0。</returns>
+        /// <param name="hdc">The device context whose state is to be saved.</param>
+        /// <returns>A positive identifier for the saved state on success; zero on failure.</returns>
         [DllImport("gdi32.dll", SetLastError = true)] private static extern int SaveDC(IntPtr hdc);
         /// <summary>
-        /// 保存したデバイスコンテキストの描画状態を復元します。
+        /// Restores a previously saved drawing state of the device context.
         /// </summary>
-        /// <param name="hdc">復元対象のデバイスコンテキスト。</param>
-        /// <param name="savedDc"><see cref="SaveDC"/> が返した保存状態の識別子。</param>
-        /// <returns>成功した場合は <see langword="true"/>。</returns>
+        /// <param name="hdc">The device context whose state is to be restored.</param>
+        /// <param name="savedDc">The saved-state identifier returned by <see cref="SaveDC"/>.</param>
+        /// <returns><see langword="true"/> if successful.</returns>
         [DllImport("gdi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool RestoreDC(IntPtr hdc, int savedDc);
         /// <summary>
-        /// デバイスコンテキストのビューポート原点を変更します。
+        /// Changes the viewport origin of the device context.
         /// </summary>
-        /// <param name="hdc">変更対象のデバイスコンテキスト。</param>
-        /// <param name="x">新しい原点の X 座標。</param>
-        /// <param name="y">新しい原点の Y 座標。</param>
-        /// <param name="oldPoint">元の原点を受け取る領域へのポインター。不要な場合はゼロ。</param>
-        /// <returns>成功した場合は <see langword="true"/>。</returns>
+        /// <param name="hdc">The device context to modify.</param>
+        /// <param name="x">The X coordinate of the new origin.</param>
+        /// <param name="y">The Y coordinate of the new origin.</param>
+        /// <param name="oldPoint">A pointer that receives the previous origin, or zero if it is not needed.</param>
+        /// <returns><see langword="true"/> if successful.</returns>
         [DllImport("gdi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool SetViewportOrgEx(IntPtr hdc, int x, int y, IntPtr oldPoint);
@@ -240,30 +240,30 @@ namespace wordpadneo.Helpers
         private const int ES_AUTOVSCROLL = 0x0040;
 
         /// <summary>
-        /// センチメートル単位の長さを twip（1/1440 インチ）へ変換します。
+        /// Converts a length in centimeters to twips (1/1440 of an inch).
         /// </summary>
-        /// <param name="cm">変換する長さ（cm）。</param>
-        /// <returns>四捨五入して整数化した twip 値。</returns>
+        /// <param name="cm">The length to convert, in centimeters.</param>
+        /// <returns>The twip value rounded to the nearest integer.</returns>
         private static int ToTwips(double cm) => checked((int)Math.Round(cm * 1440.0 / 2.54));
         /// <summary>
-        /// 指定 DPI に基づきピクセル数を twip に変換します。
+        /// Converts a pixel count to twips using the specified DPI.
         /// </summary>
-        /// <param name="pixels">変換するピクセル数。</param>
-        /// <param name="dpi">変換元の解像度（1 インチ当たりのピクセル数）。</param>
-        /// <returns>四捨五入して整数化した twip 値。</returns>
+        /// <param name="pixels">The number of pixels to convert.</param>
+        /// <param name="dpi">The source resolution in pixels per inch.</param>
+        /// <returns>The twip value rounded to the nearest integer.</returns>
         private static int PixelsToTwips(int pixels, int dpi) =>
             checked((int)Math.Round((double)pixels * 1440.0 / dpi));
 
         /// <summary>
-        /// RichEditBox の RTF 文書を、指定のプリンター DC とページ設定を使って印刷します。
+        /// Prints the RTF document in a RichEditBox using the specified printer DC and page settings.
         /// </summary>
-        /// <param name="editor">印刷元の RichEditBox。</param>
-        /// <param name="hdc">呼び出し元が所有するプリンターのデバイスコンテキスト。</param>
-        /// <param name="settings">用紙サイズおよび余白の設定。</param>
-        /// <param name="docName">印刷キュー上で使用する文書名。</param>
-        /// <returns>すべてのページを正常に印刷した場合は <see langword="true"/>、入力不正または印刷エラー時は <see langword="false"/>。</returns>
+        /// <param name="editor">The RichEditBox containing the document to print.</param>
+        /// <param name="hdc">The printer device context owned by the caller.</param>
+        /// <param name="settings">The paper size and margin settings.</param>
+        /// <param name="docName">The document name shown in the print queue.</param>
+        /// <returns><see langword="true"/> if all pages are printed successfully; <see langword="false"/> for invalid input or printing errors.</returns>
         /// <remarks>
-        /// このメソッドは <paramref name="hdc"/> を破棄しません。印刷開始後に失敗した場合は印刷ジョブの中止と一時リソースの解放を試みます。
+        /// This method does not release <paramref name="hdc"/>. If an error occurs after printing starts, it attempts to abort the print job and release temporary resources.
         /// </remarks>
         public static bool PrintRTF(RichEditBox editor, IntPtr hdc, PageSettings settings,
             string docName = "RichEdit Document")
@@ -431,9 +431,9 @@ namespace wordpadneo.Helpers
         }
 
         /// <summary>
-        /// 直前の Win32 エラーコードと失敗した処理名をデバッグ出力に記録します。
+        /// Logs the most recent Win32 error code and the name of the failed operation to the debug output.
         /// </summary>
-        /// <param name="step">失敗した処理を示す文字列。</param>
+        /// <param name="step">A string identifying the failed operation.</param>
         private static void LogWin32(string step)
         {
             Debug.WriteLine($"[Print] {step} failed (Win32={Marshal.GetLastWin32Error()})");

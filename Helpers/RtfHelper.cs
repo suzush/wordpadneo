@@ -8,29 +8,19 @@ using System.Text.RegularExpressions;
 namespace wordpadneo.Helpers
 {
     /// <summary>
-    /// RTF形式の文書とページ設定の読み込み・保存を支援する
-    /// ユーティリティクラスです。
+    /// Utility helpers for loading and saving RTF content with page settings.
     /// </summary>
     public static class RtfHelper
     {
         /// <summary>
-        /// RTF文字列から用紙サイズと余白設定を取得し、
-        /// RichEditBoxにRTF文書を読み込みます。
+        /// Reads paper size and margin settings from an RTF string and loads it into the RichEditBox.
         /// </summary>
-        /// <param name="editor">
-        /// RTF文書を読み込む対象のRichEditBox。
-        /// </param>
-        /// <param name="rtfContent">
-        /// 読み込むRTF形式の文字列。
-        /// </param>
-        /// <param name="pageSettings">
-        /// RTF文書から取得した用紙サイズと余白を反映するページ設定。
-        /// </param>
+        /// <param name="editor">The RichEditBox that receives the RTF content.</param>
+        /// <param name="rtfContent">The source RTF string.</param>
+        /// <param name="pageSettings">The page settings object to update from the RTF metadata.</param>
         /// <remarks>
-        /// RTF内の用紙幅、高さ、および上下左右の余白を
-        /// Twips単位からセンチメートル単位に変換します。
-        /// 該当する設定がRTF内に存在しない場合は、
-        /// pageSettingsの既存の値を維持します。
+        /// Paper width/height and margins are parsed from twips and converted to centimeters.
+        /// If a value is not present in the RTF content, the current page setting is preserved.
         /// </remarks>
         public static void SetFormattedRtf(
             RichEditBox editor,
@@ -71,24 +61,14 @@ namespace wordpadneo.Helpers
         }
 
         /// <summary>
-        /// 指定した正規表現を使用して文字列からRTF制御値を取得します。
+        /// Reads a numeric RTF control value from text using the specified regex pattern.
         /// </summary>
-        /// <param name="input">
-        /// 検索対象となるRTF形式の文字列。
-        /// </param>
-        /// <param name="pattern">
-        /// 取得する数値をキャプチャする正規表現パターン。
-        /// </param>
-        /// <param name="result">
-        /// 取得した数値。取得に失敗した場合は0。
-        /// </param>
-        /// <returns>
-        /// 指定したパターンに一致し、数値の取得に成功した場合はtrue。
-        /// それ以外の場合はfalse。
-        /// </returns>
+        /// <param name="input">The RTF text to search.</param>
+        /// <param name="pattern">The regex pattern whose first capture group contains the numeric value.</param>
+        /// <param name="result">The parsed numeric value, or 0 when parsing fails.</param>
+        /// <returns>True when the value is found and parsed; otherwise false.</returns>
         /// <remarks>
-        /// 正規表現の最初のキャプチャグループから数値を取得します。
-        /// 取得した数値は単位変換せず、そのまま返します。
+        /// The value is returned as-is without unit conversion.
         /// </remarks>
         private static bool TryGetRtfValue(
             string input,
@@ -108,25 +88,16 @@ namespace wordpadneo.Helpers
         }
 
         /// <summary>
-        /// RichEditBoxの文書をRTF形式で取得し、
-        /// 指定された用紙サイズと余白設定を反映します。
+        /// Gets the current RichEditBox document as RTF and applies paper/margin settings to the header.
         /// </summary>
-        /// <param name="editor">
-        /// RTF文書を取得する対象のRichEditBox。
-        /// </param>
-        /// <param name="pageSettings">
-        /// RTF文書に反映する用紙サイズと余白のページ設定。
-        /// </param>
+        /// <param name="editor">The RichEditBox that provides the RTF document.</param>
+        /// <param name="pageSettings">The paper size and margin settings to write into the RTF metadata.</param>
         /// <returns>
-        /// 用紙サイズと余白設定を反映したRTF形式の文字列。
-        /// RTFヘッダーが想定した形式でない場合は、
-        /// RichEditBoxから取得した元のRTF文字列。
+        /// An RTF string with updated page settings when the expected header exists;
+        /// otherwise, the original RTF string.
         /// </returns>
         /// <remarks>
-        /// ページ設定の各値をセンチメートル単位から
-        /// Twips単位に変換し、RTFヘッダーへ追加します。
-        /// RTF文字列が所定のヘッダーで始まる場合のみ、
-        /// ページ設定を含むヘッダーに置き換えます。
+        /// Page setting values are converted from centimeters to twips before writing to the header.
         /// </remarks>
         public static string GetFormattedRtf(
             RichEditBox editor,

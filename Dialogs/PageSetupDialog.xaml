@@ -6,6 +6,7 @@
     xmlns:local="using:wordpadneo.Dialogs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Uid="PageSetupDialog"
     mc:Ignorable="d"
     Title="ページ設定"
     PrimaryButtonText="OK"
@@ -15,29 +16,60 @@
     Style="{StaticResource DefaultContentDialogStyle}">
 
     <StackPanel Spacing="12">
-        <ComboBox x:Name="comboPaper" Header="用紙サイズ" HorizontalAlignment="Stretch">
-            <ComboBoxItem Content="A3 (29.7 x 42.0 cm)"/>
-            <ComboBoxItem Content="A4 (21.0 x 29.7 cm)"/>
-            <ComboBoxItem Content="A5 (14.8 x 21.0 cm)"/>
-            <ComboBoxItem Content="A6 (10.5 x 14.8 cm)"/>
-            <ComboBoxItem Content="B4 (25.7 x 36.4 cm)"/>
-            <ComboBoxItem Content="B5 (18.2 x 25.7 cm)"/>
-            <ComboBoxItem Content="B6 (12.8 x 18.2 cm)"/>
-            <ComboBoxItem Content="レター (21.59 x 27.94 cm)"/>
-            <ComboBoxItem Content="L判 (8.9 x 12.7 cm)"/>
-            <ComboBoxItem Content="2L判 (12.7 x 17.8 cm)"/>
-            <ComboBoxItem Content="はがき (10.0 x 14.8 cm)"/>
-            <ComboBoxItem Content="長形3号 (12.0 x 23.5 cm)"/>
-            <ComboBoxItem Content="長形4号 (9.0 x 20.5 cm)"/>
-            <ComboBoxItem Content="洋形2号 (11.4 x 16.2 cm)"/>
-            <ComboBoxItem Content="洋形4号 (10.5 x 23.5 cm)"/>
+        <ComboBox x:Uid="PageSetupDialog_PaperCombo"
+                  x:Name="comboPaper"
+                  Header="用紙サイズ"
+                  HorizontalAlignment="Stretch">
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperA3" Content="A3 (29.7 x 42.0 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperA4" Content="A4 (21.0 x 29.7 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperA5" Content="A5 (14.8 x 21.0 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperA6" Content="A6 (10.5 x 14.8 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperB4" Content="B4 (25.7 x 36.4 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperB5" Content="B5 (18.2 x 25.7 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperB6" Content="B6 (12.8 x 18.2 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperLetter" Content="レター (21.59 x 27.94 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperL" Content="L判 (8.9 x 12.7 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_Paper2L" Content="2L判 (12.7 x 17.8 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperPostcard" Content="はがき (10.0 x 14.8 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperChokei3" Content="長形3号 (12.0 x 23.5 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperChokei4" Content="長形4号 (9.0 x 20.5 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperYoukei2" Content="洋形2号 (11.4 x 16.2 cm)"/>
+            <ComboBoxItem x:Uid="PageSetupDialog_PaperYoukei4" Content="洋形4号 (10.5 x 23.5 cm)"/>
         </ComboBox>
 
         <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12">
-            <NumberBox x:Name="numTopMargin" Grid.Row="0" Grid.Column="0" Header="上余白 (cm)" SmallChange="0.5" LargeChange="1.0" SpinButtonPlacementMode="Inline"/>
-            <NumberBox x:Name="numBottomMargin" Grid.Row="0" Grid.Column="1" Header="下余白 (cm)" SmallChange="0.5" LargeChange="1.0" SpinButtonPlacementMode="Inline"/>
-            <NumberBox x:Name="numLeftMargin" Grid.Row="1" Grid.Column="0" Header="左余白 (cm)" SmallChange="0.5" LargeChange="1.0" SpinButtonPlacementMode="Inline"/>
-            <NumberBox x:Name="numRightMargin" Grid.Row="1" Grid.Column="1" Header="右余白 (cm)" SmallChange="0.5" LargeChange="1.0" SpinButtonPlacementMode="Inline"/>
+            <NumberBox x:Uid="PageSetupDialog_TopMargin"
+                       x:Name="numTopMargin"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Header="上余白 (cm)"
+                       SmallChange="0.5"
+                       LargeChange="1.0"
+                       SpinButtonPlacementMode="Inline"/>
+            <NumberBox x:Uid="PageSetupDialog_BottomMargin"
+                       x:Name="numBottomMargin"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       Header="下余白 (cm)"
+                       SmallChange="0.5"
+                       LargeChange="1.0"
+                       SpinButtonPlacementMode="Inline"/>
+            <NumberBox x:Uid="PageSetupDialog_LeftMargin"
+                       x:Name="numLeftMargin"
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       Header="左余白 (cm)"
+                       SmallChange="0.5"
+                       LargeChange="1.0"
+                       SpinButtonPlacementMode="Inline"/>
+            <NumberBox x:Uid="PageSetupDialog_RightMargin"
+                       x:Name="numRightMargin"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       Header="右余白 (cm)"
+                       SmallChange="0.5"
+                       LargeChange="1.0"
+                       SpinButtonPlacementMode="Inline"/>
         </Grid>
     </StackPanel>
 </ContentDialog>

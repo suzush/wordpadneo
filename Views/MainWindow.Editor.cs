@@ -15,12 +15,12 @@ using WinRT.Interop;
 namespace wordpadneo.Views
 {
     /// <summary>
-    /// メインウィンドウの文字書式、編集、検索・置換、印刷機能を実装する部分クラスです。
+    /// Partial class implementing text formatting, editing, find and replace, and printing features for the main window.
     /// </summary>
     partial class MainWindow
     {
         /// <summary>
-        /// システムにインストールされているフォントファミリーを取得し、フォント選択欄に名前順で設定します。
+        /// Retrieves system-installed font families and populates the font selector in alphabetical order.
         /// </summary>
         private void PopulateFontList()
         {
@@ -38,7 +38,7 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// あらかじめ定義されたフォントサイズの一覧をフォントサイズ選択欄に設定します。
+        /// Populates the font size selector with a predefined list of font sizes.
         /// </summary>
         private void PopulateFontSizeList()
         {
@@ -61,9 +61,9 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// ページ設定に従ってエディターとルーラーの幅、余白、描画位置を更新します。
+        /// Updates the editor and ruler widths, margins, and drawing positions based on the page settings.
         /// </summary>
-        /// <remarks>ページ寸法と左右余白をセンチメートルからピクセルに変換し、最後にルーラーを再描画します。</remarks>
+        /// <remarks>Converts page dimensions and horizontal margins from centimeters to pixels, then redraws the ruler.</remarks>
         private void UpdatePageLayout()
         {
             if (editor == null || rulerCanvas == null) return;
@@ -84,10 +84,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// エディター読み込み時に既定の文字書式、ページレイアウト、元に戻す設定およびウィンドウタイトルを初期化します。
+        /// Initializes the default character formatting, page layout, undo settings, and window title when the editor loads.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
             ITextCharacterFormat defaultFormat = editor.Document.GetDefaultCharacterFormat();
@@ -107,11 +107,11 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 選択範囲の文字書式と段落の配置を取得し、対応するUIの選択状態とページレイアウトを更新します。
+        /// Reads the selected text formatting and paragraph alignment, then updates the corresponding UI controls and page layout.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
-        /// <remarks>更新処理中を示すフラグが有効な場合は処理しません。</remarks>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
+        /// <remarks>Skips processing while the update-in-progress flag is set.</remarks>
         private void Editor_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (_isUpdating) return;
@@ -145,11 +145,11 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 文書の変更状態を確認し、必要に応じて保存済みフラグとウィンドウタイトルを更新します。
+        /// Checks whether the document has been modified and updates the saved-state flag and window title when necessary.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
-        /// <remarks>現在の実装では、元に戻せる操作の有無を変更状態の判定に使用します。</remarks>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
+        /// <remarks>The current implementation determines the modified state based on whether an undo operation is available.</remarks>
         private void Editor_TextChanged(object sender, RoutedEventArgs e)
         {
             bool isModified = editor.Document.CanUndo();
@@ -162,10 +162,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// フォント選択欄で選ばれたフォントを現在の選択範囲に適用します。
+        /// Applies the font chosen in the font selector to the current selection.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void FontComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (fontComboBox.SelectedItem is string selectedFontName)
@@ -181,10 +181,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// フォントサイズ選択欄の値を数値に変換し、現在の選択範囲に適用します。
+        /// Converts the selected font size to a numeric value and applies it to the current selection.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (fontSizeComboBox.SelectedItem is string selectedFontSizeStr && float.TryParse(selectedFontSizeStr, out float selectedFontSize))
@@ -200,10 +200,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 太字ボタンの状態に応じて、選択範囲の太字設定を切り替えます。
+        /// Toggles bold formatting for the selected text according to the bold button state.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void BoldButton_Click(object sender, RoutedEventArgs e)
         {
             ITextSelection selectedText = editor.Document.Selection;
@@ -216,10 +216,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 斜体ボタンの状態に応じて、選択範囲の斜体設定を切り替えます。
+        /// Toggles italic formatting for the selected text according to the italic button state.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void ItalicButton_Click(object sender, RoutedEventArgs e)
         {
             ITextSelection selectedText = editor.Document.Selection;
@@ -232,10 +232,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 下線ボタンの状態に応じて、選択範囲に単線の下線を設定または解除します。
+        /// Applies or removes a single underline on the selected text according to the underline button state.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void UnderlineButton_Click(object sender, RoutedEventArgs e)
         {
             ITextSelection selectedText = editor.Document.Selection;
@@ -250,10 +250,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 取り消し線ボタンの状態に応じて、選択範囲の取り消し線を切り替えます。
+        /// Toggles strikethrough formatting for the selected text according to the strikethrough button state.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void StrikethroughButton_Click(object sender, RoutedEventArgs e)
         {
             ITextSelection selectedText = editor.Document.Selection;
@@ -266,10 +266,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 文字色ピッカーで選ばれた色を現在の選択範囲の文字色に反映します。
+        /// Applies the color selected in the font color picker to the selected text.
         /// </summary>
-        /// <param name="sender">色が変更されたColorPicker。</param>
-        /// <param name="args">新しい色を含むイベント引数。</param>
+        /// <param name="sender">The ColorPicker whose color changed.</param>
+        /// <param name="args">Event arguments containing the new color.</param>
         private void FontColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
             ITextSelection selectedText = editor.Document.Selection;
@@ -282,10 +282,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 背景色ピッカーで選ばれた色を現在の選択範囲の文字背景色に反映します。
+        /// Applies the color selected in the background color picker to the background of the selected text.
         /// </summary>
-        /// <param name="sender">色が変更されたColorPicker。</param>
-        /// <param name="args">新しい色を含むイベント引数。</param>
+        /// <param name="sender">The ColorPicker whose color changed.</param>
+        /// <param name="args">Event arguments containing the new color.</param>
         private void BackgroundColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
         {
             ITextSelection selectedText = editor.Document.Selection;
@@ -298,9 +298,9 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 現在の選択範囲の段落配置を指定された配置に変更し、配置ボタンの状態を更新します。
+        /// Sets the paragraph alignment of the current selection and updates the alignment buttons.
         /// </summary>
-        /// <param name="alignment">設定する段落配置。</param>
+        /// <param name="alignment">The paragraph alignment to apply.</param>
         private void SetParagraphAlignment(ParagraphAlignment alignment)
         {
             ITextSelection selectedText = editor.Document.Selection;
@@ -314,9 +314,9 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 指定された段落配置に合わせて、左寄せ・中央揃え・右寄せ・両端揃えボタンの状態を更新します。
+        /// Updates the left, center, right, and justify button states to match the specified paragraph alignment.
         /// </summary>
-        /// <param name="alignment">選択状態を反映する段落配置。</param>
+        /// <param name="alignment">The paragraph alignment to reflect in the button states.</param>
         private void UpdateAlignmentButtonStates(ParagraphAlignment alignment)
         {
             alignLeftButton.IsChecked = (alignment == ParagraphAlignment.Left);
@@ -326,50 +326,50 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 左寄せボタンのクリックに応じて、選択範囲の段落を左寄せにします。
+        /// Left-aligns the selected paragraphs when the left-align button is clicked.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void AlignLeftButton_Click(object sender, RoutedEventArgs e)
         {
             SetParagraphAlignment(ParagraphAlignment.Left);
         }
 
         /// <summary>
-        /// 中央揃えボタンのクリックに応じて、選択範囲の段落を中央揃えにします。
+        /// Centers the selected paragraphs when the center-align button is clicked.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void AlignCenterButton_Click(object sender, RoutedEventArgs e)
         {
             SetParagraphAlignment(ParagraphAlignment.Center);
         }
 
         /// <summary>
-        /// 右寄せボタンのクリックに応じて、選択範囲の段落を右寄せにします。
+        /// Right-aligns the selected paragraphs when the right-align button is clicked.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void AlignRightButton_Click(object sender, RoutedEventArgs e)
         {
             SetParagraphAlignment(ParagraphAlignment.Right);
         }
 
         /// <summary>
-        /// 両端揃えボタンのクリックに応じて、選択範囲の段落を両端揃えにします。
+        /// Justifies the selected paragraphs when the justify button is clicked.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void AlignJustifyButton_Click(object sender, RoutedEventArgs e)
         {
             SetParagraphAlignment(ParagraphAlignment.Justify);
         }
 
         /// <summary>
-        /// エディターでTabキーが押された場合にタブ文字を挿入し、キー入力を処理済みにします。
+        /// Inserts a tab character when Tab is pressed in the editor and marks the key event as handled.
         /// </summary>
-        /// <param name="sender">キー入力イベントの発生元。</param>
-        /// <param name="e">押されたキーと処理済み状態を保持するイベント引数。</param>
+        /// <param name="sender">The source of the keyboard event.</param>
+        /// <param name="e">Event arguments containing the pressed key and handled state.</param>
         private void Editor_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Tab)
@@ -380,10 +380,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 元に戻す操作が可能な場合、直前の編集操作を取り消します。
+        /// Undoes the most recent edit if undo is available.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void UndoButton_Click(object sender, RoutedEventArgs e)
         {
             if (editor.Document.CanUndo())
@@ -393,10 +393,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// やり直し操作が可能な場合、取り消した編集操作を再実行します。
+        /// Redoes the previously undone edit if redo is available.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void RedoButton_Click(object sender, RoutedEventArgs e)
         {
             if (editor.Document.CanRedo())
@@ -406,31 +406,31 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 現在の選択範囲を切り取ってクリップボードに移します。
+        /// Cuts the current selection to the clipboard.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void CutButton_Click(object sender, RoutedEventArgs e)
         {
             editor.Document.Selection.Cut();
         }
 
         /// <summary>
-        /// 現在の選択範囲をクリップボードにコピーします。
+        /// Copies the current selection to the clipboard.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
             editor.Document.Selection.Copy();
         }
 
         /// <summary>
-        /// クリップボードにテキストがある場合、取得して現在の選択範囲に貼り付けます。
+        /// Retrieves text from the clipboard, if available, and pastes it into the current selection.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
-        /// <remarks>クリップボードのテキストを取得し、既存実装どおりFormatRtfオプションを指定して設定します。</remarks>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
+        /// <remarks>Retrieves clipboard text and sets it using the FormatRtf option, as in the existing implementation.</remarks>
         private async void PasteButton_Click(object sender, RoutedEventArgs e)
         {
             editor.Focus(FocusState.Programmatic);
@@ -444,17 +444,17 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 検索ダイアログを表示し、入力された語句を前方または後方へ検索します。
+        /// Displays the Find dialog and searches forward or backward for the entered text.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
-        /// <remarks>検索語は次回のダイアログ表示時に再利用できるように保存します。</remarks>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
+        /// <remarks>Stores the search term so it can be reused the next time the dialog is opened.</remarks>
         private async void FindButton_Click(object sender, RoutedEventArgs e)
 
         {
             TextBox searchTextBox = new TextBox
             {
-                PlaceholderText = "検索するワードを入力...",
+                PlaceholderText = LocalizationHelper.GetString("FindDialog_SearchPlaceholder"),
                 Width = 280,
                 Margin = new Thickness(0, 10, 0, 0),
                 Text = _lastSearchKeyword
@@ -464,18 +464,18 @@ namespace wordpadneo.Views
             {
                 XamlRoot = this.Content.XamlRoot,
                 Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                Title = "検索",
+                Title = LocalizationHelper.GetString("FindDialog_Title"),
                 Content = new StackPanel
                 {
                     Children =
                     {
-                        new TextBlock { Text = "探したいテキストを入力してください：" },
+                        new TextBlock { Text = LocalizationHelper.GetString("FindDialog_Prompt") },
                         searchTextBox
                     }
                 },
-                PrimaryButtonText = "次を検索",
-                SecondaryButtonText = "前を検索",
-                CloseButtonText = "キャンセル",
+                PrimaryButtonText = LocalizationHelper.GetString("FindDialog_NextButton"),
+                SecondaryButtonText = LocalizationHelper.GetString("FindDialog_PreviousButton"),
+                CloseButtonText = LocalizationHelper.GetString("Common_Cancel"),
                 DefaultButton = ContentDialogButton.Primary
             };
 
@@ -501,10 +501,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 選択範囲の末尾以降から指定語句を大文字・小文字を区別せずに検索します。
+        /// Searches case-insensitively for the specified text starting after the end of the selection.
         /// </summary>
-        /// <param name="keyword">検索する文字列。</param>
-        /// <remarks>末尾まで見つからない場合は文書の先頭から再検索し、一致箇所を選択します。</remarks>
+        /// <param name="keyword">The text to search for.</param>
+        /// <remarks>If no match is found before the end of the document, wraps to the beginning and selects the match.</remarks>
         private void SearchTextNext(string keyword)
         {
             var document = editor.Document;
@@ -526,15 +526,15 @@ namespace wordpadneo.Views
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("一致する文字列が見つかりませんでした。");
+                System.Diagnostics.Debug.WriteLine("No matching text was found.");
             }
         }
 
         /// <summary>
-        /// 選択範囲の先頭より前から指定語句を大文字・小文字を区別せずに逆方向検索します。
+        /// Searches backward, case-insensitively, for the specified text before the start of the selection.
         /// </summary>
-        /// <param name="keyword">検索する文字列。</param>
-        /// <remarks>前方に見つからない場合は文書の末尾側から再検索し、一致箇所を選択します。</remarks>
+        /// <param name="keyword">The text to search for.</param>
+        /// <remarks>If no earlier match is found, wraps to the end of the document and selects the match.</remarks>
         private void SearchTextPrevious(string keyword)
         {
             var document = editor.Document;
@@ -560,39 +560,39 @@ namespace wordpadneo.Views
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("一致する文字列が見つかりませんでした。");
+                System.Diagnostics.Debug.WriteLine("No matching text was found.");
             }
         }
 
         /// <summary>
-        /// 置換ダイアログを表示し、指定した文字列を1件または文書全体で置換します。
+        /// Displays the Replace dialog and replaces one occurrence or all occurrences of the specified text.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
-        /// <remarks>1件置換では該当する範囲の文字列を書き換えます。すべて置換では文書全体をプレーンテキストとして設定し直します。</remarks>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
+        /// <remarks>Replace changes the matching range; Replace All resets the entire document as plain text.</remarks>
         private async void ReplaceButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox findBox = new TextBox { PlaceholderText = "検索する文字列", Width = 280, Margin = new Thickness(0, 5, 0, 10), Text = _lastSearchKeyword };
-            TextBox replaceBox = new TextBox { PlaceholderText = "置換後の文字列", Width = 280, Margin = new Thickness(0, 5, 0, 0), Text = _lastReplaceKeyword };
+            TextBox findBox = new TextBox { PlaceholderText = LocalizationHelper.GetString("ReplaceDialog_FindPlaceholder"), Width = 280, Margin = new Thickness(0, 5, 0, 10), Text = _lastSearchKeyword };
+            TextBox replaceBox = new TextBox { PlaceholderText = LocalizationHelper.GetString("ReplaceDialog_ReplacePlaceholder"), Width = 280, Margin = new Thickness(0, 5, 0, 0), Text = _lastReplaceKeyword };
 
             ContentDialog replaceDialog = new ContentDialog
             {
                 XamlRoot = this.Content.XamlRoot,
                 Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                Title = "置換",
+                Title = LocalizationHelper.GetString("ReplaceDialog_Title"),
                 Content = new StackPanel
                 {
                     Children =
                     {
-                        new TextBlock { Text = "検索する文字列:" },
+                        new TextBlock { Text = LocalizationHelper.GetString("ReplaceDialog_FindLabel") },
                         findBox,
-                        new TextBlock { Text = "置換後の文字列:" },
+                        new TextBlock { Text = LocalizationHelper.GetString("ReplaceDialog_ReplaceLabel") },
                         replaceBox
                     }
                 },
-                PrimaryButtonText = "置換",
-                SecondaryButtonText = "すべて置換",
-                CloseButtonText = "キャンセル",
+                PrimaryButtonText = LocalizationHelper.GetString("ReplaceDialog_ReplaceButton"),
+                SecondaryButtonText = LocalizationHelper.GetString("ReplaceDialog_ReplaceAllButton"),
+                CloseButtonText = LocalizationHelper.GetString("Common_Cancel"),
                 DefaultButton = ContentDialogButton.Primary
             };
 
@@ -631,7 +631,7 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// Windowsの拡張印刷ダイアログに渡す設定と、印刷選択結果を保持する構造体です。
+        /// Holds the settings passed to the Windows extended print dialog and the resulting print selection.
         /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         private struct PRINTDLGEX
@@ -660,27 +660,27 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// Windowsの拡張印刷ダイアログを表示します。
+        /// Displays the Windows extended print dialog.
         /// </summary>
-        /// <param name="pdex">印刷ダイアログの設定と結果を保持する構造体。</param>
-        /// <returns>Windows APIのHRESULT値。</returns>
+        /// <param name="pdex">Structure containing the print dialog settings and results.</param>
+        /// <returns>The HRESULT value returned by the Windows API.</returns>
         [DllImport("comdlg32.dll", EntryPoint = "PrintDlgExW", CharSet = CharSet.Unicode)]
         private static extern int PrintDlgEx(ref PRINTDLGEX pdex);
 
         /// <summary>
-        /// 指定されたGDIデバイスコンテキストを解放します。
+        /// Releases the specified GDI device context.
         /// </summary>
-        /// <param name="hdc">解放するデバイスコンテキストのハンドル。</param>
-        /// <returns>解放に成功した場合はtrue、それ以外はfalse。</returns>
+        /// <param name="hdc">Handle to the device context to release.</param>
+        /// <returns>True if the device context was released successfully; otherwise, false.</returns>
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool DeleteDC(IntPtr hdc);
 
         /// <summary>
-        /// グローバルメモリとして割り当てた領域を解放します。
+        /// Frees memory allocated as global memory.
         /// </summary>
-        /// <param name="memory">解放対象のグローバルメモリハンドル。</param>
-        /// <returns>成功時はIntPtr.Zero、失敗時は元のハンドル。</returns>
+        /// <param name="memory">Handle to the global memory block to free.</param>
+        /// <returns>IntPtr.Zero on success; otherwise, the original handle.</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern IntPtr GlobalFree(IntPtr memory);
 
@@ -689,9 +689,9 @@ namespace wordpadneo.Views
         private const uint PD_RESULT_PRINT = 1;
 
         /// <summary>
-        /// 拡張印刷ダイアログを表示し、選択されたプリンターで文書を印刷します。
+        /// Displays the extended print dialog and prints the document using the selected printer.
         /// </summary>
-        /// <remarks>印刷の成否をデバッグ出力し、ダイアログが返したデバイスコンテキストやメモリをfinally節で解放します。</remarks>
+        /// <remarks>Logs the print result and releases device contexts and memory returned by the dialog in the finally block.</remarks>
         private void ExecutePrint()
         {
             IntPtr hwndOwner = WindowNative.GetWindowHandle(this);
@@ -719,8 +719,8 @@ namespace wordpadneo.Views
                 }
 
                 bool printed = PrintHelper.PrintRTF(
-                    editor, pdex.hDC, _pageSettings, "ドキュメント印刷");
-                System.Diagnostics.Debug.WriteLine(printed ? "印刷完了" : "印刷失敗");
+                    editor, pdex.hDC, _pageSettings, LocalizationHelper.GetString("MainWindow_PrintJobName"));
+                System.Diagnostics.Debug.WriteLine(printed ? "Printing completed" : "Printing failed");
             }
             catch (Exception ex)
             {
@@ -750,10 +750,10 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 印刷ボタンのクリックに応じて印刷処理を実行します。
+        /// Runs the print operation when the Print button is clicked.
         /// </summary>
-        /// <param name="sender">イベントの発生元。</param>
-        /// <param name="e">イベントの情報を保持する引数。</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event arguments containing information about the event.</param>
         private void PrintButton_Click(object sender, RoutedEventArgs e)
         {
             ExecutePrint();

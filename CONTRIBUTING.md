@@ -1,308 +1,35 @@
 # Contributing to WordPad Neo
 
-**🚧 現在開発中 / Work in Progress 🚧**
+**🚧 Work in Progress / 現在開発中 🚧**
 
-> **⚠️ WordPad Neoは現在開発途中のプロジェクトです。**
->
-> 機能や仕様、ソースコードの構成などは、今後の開発に伴って変更される可能性があります。
->
-> 開発途中のため、未実装の機能や不具合が存在する場合があります。
->
-> コードの変更や新機能の実装、翻訳作業を始める前に、既存のIssueやPull Requestを確認することをおすすめします。
+> **WordPad Neo is under active development.** Features, specifications, and source code structure may change. Some functionality may be incomplete or contain bugs. Before starting work, please review existing Issues and Pull Requests to avoid duplication.
 
-> **⚠️ WordPad Neo is currently under active development.**
->
-> Features, specifications, and source code structure may change as development progresses.
->
-> Some functionality may be incomplete or contain bugs.
->
-> Before starting code contributions, new features, or translations, please review existing Issues and Pull Requests to avoid duplicated work.
+> **WordPad Neoは現在開発中です。** 機能、仕様、ソースコードの構成は変更される場合があります。未実装の機能や不具合が存在する可能性があります。作業を始める前に、既存のIssueとPull Requestをご確認ください。
 
----
-
-# 日本語
-
-## はじめに
-
-WordPad Neoへの関心をお寄せいただき、ありがとうございます！
-
-WordPad Neoは、従来のWordPadのシンプルさと使いやすさを維持しながら、現代的なテキストエディタとして発展させることを目指すプロジェクトです。
-
-**現在は開発段階にあり、完成したアプリケーションではありません。**
-
-このプロジェクトでは、開発者だけでなく、翻訳者、デザイナー、テスター、一般ユーザーなど、さまざまな方からの貢献を歓迎しています。
-
-特に、**英語をはじめとする多言語への翻訳協力を積極的に募集しています。**
-
----
-
-## 1. 貢献できること
-
-WordPad Neoには、さまざまな方法で貢献できます。
-
-### 🌍 翻訳・ローカライズ（特に歓迎！）
-
-WordPad Neoを世界中のユーザーに届けるため、多言語化に協力してくださる方を募集しています。
-
-特に英語への翻訳を歓迎していますが、その他の言語への翻訳も大歓迎です。
-
-翻訳の対象には、以下が含まれます。
-
-- アプリケーションのメニューやボタン
-- 設定画面やダイアログ
-- エラーメッセージや通知
-- READMEなどのドキュメント
-- 既存の翻訳の修正や改善
-
-翻訳に参加するために、プログラミングの知識は必須ではありません。
-
-自然でわかりやすい表現への改善も、重要な貢献です。
-
-**開発中のため、翻訳対象となる文字列やファイル構成が今後変更される場合があります。** 作業を始める前に、関連するIssueやPull Requestをご確認ください。
-
-### 🐛 バグ報告
-
-アプリケーションで不具合を発見した場合は、GitHub Issuesから報告してください。
-
-WordPad Neoは現在開発途中のため、不具合や予期しない動作が発生する可能性があります。
-
-報告には、可能な範囲で以下の情報を含めてください。
-
-- 発生した問題の内容
-- 問題を再現する手順
-- 期待される動作
-- 実際に発生した動作
-- 使用しているOSやアプリケーションのバージョン
-- 必要に応じてスクリーンショット
-
-同じ問題がすでに報告されていないか、Issueを作成する前に確認してください。
-
-### 💡 機能の提案
-
-新しい機能や改善のアイデアも歓迎しています。
-
-WordPad Neoでは、シンプルさと使いやすさを大切にしています。
-
-機能を提案する際は、以下の点を意識してください。
-
-- どのような問題を解決する機能か
-- どのようなユーザーに役立つか
-- 従来のWordPadの使いやすさを損なわないか
-- 現在の開発方針やプロジェクトの目標に合っているか
-
-**大きな変更や新機能の実装を行う場合は、作業を始める前にGitHub Issuesで相談してください。**
-
-開発段階のため、機能の優先順位や実装方針が変更される可能性があります。
-
-### 💻 コードへの貢献
-
-プログラムの改善や新機能の実装も歓迎しています。
-
-基本的な手順は以下のとおりです。
-
-1. リポジトリをForkする
-2. 作業用のブランチを作成する
-3. 変更を実装する
-4. 変更内容を確認し、必要に応じてテストする
-5. 変更をCommitしてPushする
-6. Pull Requestを作成する
-
-ブランチ名の例：
-
-```text
-feature/new-toolbar
-fix/document-saving
-translation/english
-docs/update-readme
-```
-
-Pull Requestでは、変更内容とその理由を明確に説明してください。
-
-可能であれば、関連するIssueへのリンクも追加してください。
-
-なお、開発途中のため、コードの構成や実装方法が変更される場合があります。変更を加える前に、最新のソースコードと既存のPull Requestを確認してください。
-
-### 📖 ドキュメントの改善
-
-ドキュメントへの貢献も歓迎しています。
-
-例えば、以下の改善が考えられます。
-
-- 説明文の誤字脱字の修正
-- わかりにくい表現の改善
-- インストール手順の追記
-- 使用方法の説明
-- スクリーンショットの追加
-- 日本語・英語などの翻訳
-
-現在開発中の機能について記述する場合は、実装済みの機能と開発予定の機能を明確に区別してください。
-
----
-
-## 2. 翻訳に参加する方法
-
-WordPad Neoでは、翻訳への貢献を特に歓迎しています。
-
-### 翻訳の基本方針
-
-翻訳を行う際は、以下の点を意識してください。
-
-**① 自然でわかりやすい表現**
-
-単語を直訳するのではなく、その言語のユーザーにとって自然な表現を使用してください。
-
-**② 用語の統一**
-
-同じ機能や操作には、できる限り同じ訳語を使用してください。
-
-**③ 元の意味を維持する**
-
-翻訳によって機能の意味や説明内容が変わらないようにしてください。
-
-**④ UIの読みやすさ**
-
-メニューやボタンの文字数が長くなりすぎないよう配慮してください。
-
-**⑤ 特殊な文字列の保持**
-
-翻訳対象に `{filename}`、`%s`、`{0}` などのプレースホルダーが含まれる場合は、原則として変更しないでください。
-
-### 翻訳の提出方法
-
-1. GitHub Issuesで翻訳に関する既存の議論を確認する
-2. 翻訳したい言語や対象を選択する
-3. 必要に応じてIssueを作成し、作業予定を共有する
-4. 該当するファイルを翻訳・修正する
-5. Pull Requestを作成する
-
-翻訳ファイルの構成や形式が不明な場合は、GitHub Issuesで質問してください。
-
-新しい言語の追加についても歓迎しています。
-
-**注意：** 現在は開発途中のため、翻訳した文字列が今後の更新で変更・削除される場合があります。大規模な翻訳作業については、事前にIssueで相談することをおすすめします。
-
----
-
-## 3. Pull Requestのガイドライン
-
-Pull Requestを提出する際は、以下の点にご協力ください。
-
-- 一つのPull Requestでは、できるだけ一つの目的に集中してください。
-- 変更内容と理由を明確に記載してください。
-- 既存の機能や操作性への影響を確認してください。
-- 必要に応じてテストや動作確認を行ってください。
-- UIの変更を含む場合は、スクリーンショットを添付してください。
-- 他の貢献者の意見やレビューを尊重してください。
-- 大きな変更については、事前にIssueで開発方針を相談してください。
-
-WordPad Neoは現在開発段階にあるため、開発方針や実装状況によっては、Pull Requestの修正や変更をお願いする場合があります。
-
-すべてのPull Requestが必ず採用されるわけではありませんが、提案や貢献を歓迎します。
-
----
-
-## 4. コミュニティでのお願い
-
-WordPad Neoでは、誰もが安心して参加できるコミュニティを目指しています。
-
-他の貢献者に対して敬意を持ち、建設的なコミュニケーションを心がけてください。
-
-技術的な経験や言語能力にかかわらず、互いの貢献を尊重しましょう。
-
----
-
-## 5. 最後に
-
-WordPad Neoは、コミュニティとともに成長していくプロジェクトです。
-
-**現在はまだ開発途中ですが、世界中の開発者や翻訳者、ユーザーの皆さまとともに、少しずつ完成度を高めていきたいと考えています。**
-
-小さな修正や翻訳の改善も、プロジェクトにとって大切な貢献です。
-
-WordPad Neoの開発に興味を持っていただき、ありがとうございます！
+**Languages:** English (below) · [日本語](#日本語)
 
 ---
 
 # English
 
-## Thank You for Contributing!
-
-WordPad Neo is currently a **work in progress** and is not yet a finished application.
+## Introduction
 
 Thank you for your interest in contributing to WordPad Neo!
 
-WordPad Neo aims to bring the classic WordPad experience into the modern era while preserving its simplicity and ease of use.
+WordPad Neo aims to bring the familiar WordPad experience into the modern era while preserving its simplicity and ease of use. The application is still in development and is not yet finished.
 
-We welcome contributions from developers, translators, designers, testers, and users of all experience levels.
-
-**We are especially looking for contributors who can help translate WordPad Neo into English and other languages.**
-
----
+We welcome contributions from developers, designers, testers, translators, and users of all experience levels.
 
 ## 1. Ways to Contribute
 
-### 🌍 Translation and Localization (Especially Welcome!)
-
-We want WordPad Neo to be accessible to users around the world.
-
-We especially welcome English translations, but contributions in any language are greatly appreciated.
-
-Areas that need translation may include:
-
-- Application menus and buttons
-- Settings and dialog boxes
-- Error messages and notifications
-- Documentation, including the README
-- Improvements to existing translations
-
-Programming experience is not required.
-
-Even small improvements to wording, clarity, or consistency can make a meaningful difference.
-
-**Since the project is still under development, translation strings and file structures may change.** Please review existing Issues and Pull Requests before starting translation work.
-
-### 🐛 Reporting Bugs
-
-If you encounter a bug, please report it through GitHub Issues.
-
-Since WordPad Neo is still under development, bugs and unexpected behavior may occur.
-
-When reporting a bug, please include as much of the following information as possible:
-
-- A description of the issue
-- Steps to reproduce the problem
-- Expected behavior
-- Actual behavior
-- Operating system and application version
-- Screenshots, if applicable
-
-Please check existing Issues before submitting a new report to avoid duplicates.
-
-### 💡 Suggesting Features
-
-We welcome suggestions for new features and improvements.
-
-Please keep in mind that WordPad Neo focuses on simplicity, usability, and preserving the familiar WordPad experience.
-
-When suggesting a feature, consider:
-
-- What problem does it solve?
-- Who would benefit from it?
-- Does it maintain the simplicity of WordPad?
-- Does it align with the project's current goals and development direction?
-
-**For major changes or new features, please open an Issue for discussion before starting implementation.**
-
-Since the project is still evolving, development priorities and implementation plans may change.
-
 ### 💻 Code Contributions
 
-Code contributions are welcome!
+Contributions that improve existing functionality, fix issues, or add new features are welcome.
 
-To contribute code:
+A typical workflow is:
 
 1. Fork the repository.
-2. Create a new branch.
+2. Create a branch for your changes.
 3. Implement your changes.
 4. Test your changes where applicable.
 5. Commit and push your changes.
@@ -317,105 +44,162 @@ translation/english
 docs/update-readme
 ```
 
-Please clearly describe your changes and explain why they are needed.
+Explain what you changed and why, and link related Issues where applicable. Since the codebase is evolving, check the latest source code and existing Pull Requests before making changes. For major changes or new features, open an Issue for discussion before beginning implementation.
 
-If applicable, link the relevant Issue in your Pull Request.
+### 🐛 Bug Reports
 
-As the project is still under active development, the codebase and implementation details may change. Please review the latest source code and existing Pull Requests before making changes.
+Report bugs using GitHub Issues. If possible, include:
 
-### 📖 Documentation
+- A description of the problem
+- Steps to reproduce it
+- Expected and actual behavior
+- Operating system and application version
+- Screenshots, when helpful
 
-Documentation improvements are also welcome.
+Please search existing Issues before submitting a new report.
 
-Examples include:
+### 💡 Feature Suggestions
 
-- Fixing typos and grammatical errors
-- Improving unclear explanations
-- Updating installation instructions
-- Adding usage examples
-- Adding screenshots
-- Translating documentation into other languages
+Ideas for new features and improvements are welcome. When proposing a feature, consider what problem it solves, who would benefit, and whether it maintains WordPad's simplicity and fits the project's goals. Discuss major changes in an Issue before implementing them. Development priorities may change as the project evolves.
 
-When documenting features under development, please clearly distinguish between implemented features and planned functionality.
+### 📖 Documentation Improvements
 
----
+Help improve documentation by fixing typos, clarifying explanations, updating installation instructions, adding usage examples or screenshots, or translating documentation. Clearly distinguish implemented features from planned ones.
 
-## 2. Translation Guidelines
+### 🌍 Translation and Localization
 
-Translations are an important part of making WordPad Neo accessible to a global audience.
+Translations and improvements to existing localized text are welcome. Areas include menus, buttons, settings, dialogs, notifications, error messages, and documentation. Programming experience is not required.
 
-### General Guidelines
+Translations and file structures may change during development. Review existing Issues and Pull Requests before starting, especially for larger translation updates.
 
-**1. Use Natural Language**
+## 2. Pull Request Guidelines
 
-Avoid overly literal translations. Prefer expressions that are clear and natural to native speakers.
+- Keep each Pull Request focused on a specific purpose.
+- Explain what changed and why.
+- Check for effects on existing functionality.
+- Test changes when applicable.
+- Include screenshots for UI changes when useful.
+- Be respectful and constructive in reviews.
+- Discuss major changes in an Issue before implementation.
 
-**2. Maintain Consistency**
+As the project evolves, Pull Requests may need revisions. Not every Pull Request can be accepted, but constructive contributions are appreciated.
 
-Use consistent terminology for the same features and actions throughout the application.
+## 3. Translation Guidelines
 
-**3. Preserve the Original Meaning**
+If you are contributing translations:
 
-Make sure translations accurately reflect the intended meaning of the original text.
+1. **Use natural language.** Prefer clear wording over literal translation.
+2. **Stay consistent.** Use the same terms for the same features and actions.
+3. **Preserve meaning.** Keep the original intent accurate.
+4. **Keep UI text concise.** Avoid overly long menu, button, and dialog labels.
+5. **Preserve placeholders.** Do not change `{filename}`, `%s`, `{0}`, or similar placeholders unless required.
 
-**4. Keep UI Text Concise**
+To contribute, check existing translation-related Issues, select a language or area, coordinate through an Issue when needed, edit the relevant files, and submit a Pull Request. Ask in GitHub Issues if the translation file layout is unclear. New languages are welcome.
 
-Avoid unnecessarily long translations, especially for menus, buttons, and dialog boxes.
-
-**5. Preserve Placeholders**
-
-Do not modify placeholders such as `{filename}`, `%s`, or `{0}` unless explicitly required.
-
-### How to Submit Translations
-
-1. Check existing translation-related GitHub Issues.
-2. Choose a language or translation area.
-3. Open an Issue if coordination is needed.
-4. Translate or improve the relevant files.
-5. Submit a Pull Request.
-
-If you are unsure where translation files are located or how they are organized, feel free to ask in GitHub Issues.
-
-Contributions for new languages are welcome!
-
-**Note:** Since WordPad Neo is still under development, translated strings may be changed or removed in future updates. For large translation efforts, we recommend discussing your plans through GitHub Issues first.
-
----
-
-## 3. Pull Request Guidelines
-
-When submitting a Pull Request, please follow these guidelines:
-
-- Keep each Pull Request focused on a specific change.
-- Clearly explain what has changed and why.
-- Check whether your changes affect existing functionality.
-- Test your changes when applicable.
-- Include screenshots for user interface changes when possible.
-- Be respectful and constructive during code reviews.
-- Discuss major changes through GitHub Issues before implementation.
-
-Since WordPad Neo is under active development, Pull Requests may require revisions to align with the project's evolving architecture and development direction.
-
-Please note that not every Pull Request can be accepted, but all constructive contributions are appreciated.
-
----
+Translated strings may change or be removed as development continues. For large translation efforts, discuss the scope before starting.
 
 ## 4. Community Guidelines
 
-We aim to create a welcoming and respectful community.
-
-Please communicate respectfully, provide constructive feedback, and appreciate contributions from people with different backgrounds and experience levels.
-
-Everyone is welcome to participate.
-
----
+Help maintain a welcoming, respectful community. Communicate constructively and value contributions from people with different backgrounds and experience levels.
 
 ## 5. Final Note
 
-WordPad Neo is a community-driven project.
+WordPad Neo is a project that grows through community contributions. Whether you write code, report a bug, suggest a feature, improve documentation, or translate text, thank you for helping make it better.
 
-**Although the project is still in development, we hope to improve it step by step together with developers, translators, and users from around the world.**
+---
 
-Whether you contribute code, translate a few strings, fix a typo, report a bug, or suggest an improvement, your contribution matters.
+# 日本語
 
-Thank you for helping make WordPad Neo better for everyone!
+## はじめに
+
+WordPad Neoへの貢献をご検討いただき、ありがとうございます。
+
+WordPad Neoは、従来のWordPadのシンプルさと使いやすさを維持しながら、現代的なアプリケーションへ発展させることを目指しています。現在は開発中であり、完成したアプリケーションではありません。
+
+開発者、デザイナー、テスター、翻訳者、一般ユーザーなど、さまざまな方からの貢献を歓迎します。
+
+## 1. 貢献できること
+
+### 💻 コードへの貢献
+
+既存機能の改善、不具合の修正、新機能の実装などを歓迎します。
+
+基本的な手順は次のとおりです。
+
+1. リポジトリをForkする
+2. 作業用ブランチを作成する
+3. 変更を実装する
+4. 必要に応じてテストする
+5. 変更をCommitしてPushする
+6. Pull Requestを作成する
+
+ブランチ名の例：
+
+```text
+feature/new-toolbar
+fix/document-saving
+translation/english
+docs/update-readme
+```
+
+Pull Requestには変更内容と理由を記載し、必要に応じて関連Issueをリンクしてください。開発中のため、変更前に最新のソースコードと既存のPull Requestをご確認ください。大きな変更や新機能は、実装前にIssueで相談してください。
+
+### 🐛 バグ報告
+
+不具合はGitHub Issuesで報告してください。可能な範囲で次の情報を含めてください。
+
+- 問題の内容
+- 再現手順
+- 期待される動作と実際の動作
+- OSとアプリケーションのバージョン
+- 必要に応じてスクリーンショット
+
+Issueを作成する前に、同じ問題が報告されていないか確認してください。
+
+### 💡 機能の提案
+
+新しい機能や改善案も歓迎します。解決したい問題、対象ユーザー、WordPadのシンプルさ、プロジェクトの方針との整合性を意識してください。大きな変更は実装前にIssueで相談してください。開発状況により優先順位が変わる場合があります。
+
+### 📖 ドキュメントの改善
+
+誤字脱字の修正、説明の明確化、インストール手順の更新、使用例やスクリーンショットの追加、ドキュメントの翻訳などを歓迎します。実装済みの機能と開発予定の機能は明確に区別してください。
+
+### 🌍 翻訳・ローカライズ
+
+メニュー、ボタン、設定、ダイアログ、通知、エラーメッセージ、ドキュメントなどの翻訳や既存訳の改善を歓迎します。プログラミングの知識は必須ではありません。
+
+開発中のため文字列やファイル構成が変更される場合があります。特に大規模な作業の前には、既存のIssueとPull Requestを確認してください。
+
+## 2. Pull Requestのガイドライン
+
+- 一つのPull Requestはできるだけ一つの目的に絞ってください。
+- 変更内容と理由を明確に記載してください。
+- 既存機能への影響を確認してください。
+- 必要に応じてテストしてください。
+- UIの変更には、役立つ場合はスクリーンショットを添付してください。
+- レビューでは互いに敬意を持ち、建設的にやり取りしてください。
+- 大きな変更は実装前にIssueで相談してください。
+
+開発状況に応じてPull Requestの修正をお願いする場合があります。すべてのPull Requestが採用されるとは限りませんが、建設的な貢献を歓迎します。
+
+## 3. 翻訳のガイドライン
+
+翻訳に参加する際は、次の点に注意してください。
+
+1. **自然な表現にする。** 直訳よりもわかりやすい表現を優先してください。
+2. **用語を統一する。** 同じ機能や操作には同じ訳語を使ってください。
+3. **元の意味を保つ。** 内容や意図が変わらないようにしてください。
+4. **UIの文字列を簡潔にする。** メニューやボタン、ダイアログで長すぎる表現を避けてください。
+5. **プレースホルダーを維持する。** `{filename}`、`%s`、`{0}` などは、必要な場合を除いて変更しないでください。
+
+翻訳関連の既存Issueを確認し、対象言語や範囲を決め、必要に応じてIssueで調整したうえでファイルを修正し、Pull Requestを作成してください。ファイル構成が不明な場合はGitHub Issuesで質問できます。新しい言語の追加も歓迎します。
+
+開発に伴い翻訳文字列が変更・削除される場合があります。大規模な翻訳は事前に相談してください。
+
+## 4. コミュニティでのお願い
+
+誰もが参加しやすいコミュニティを目指しています。敬意を持って建設的にコミュニケーションを取り、経験や背景の異なる方々の貢献を尊重してください。
+
+## 5. 最後に
+
+WordPad Neoはコミュニティとともに成長するプロジェクトです。コードの改善、バグ報告、機能の提案、ドキュメントの更新、翻訳など、さまざまな形でのご協力に感謝します。

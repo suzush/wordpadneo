@@ -12,37 +12,26 @@ using Windows.Foundation;
 namespace wordpadneo.Helpers
 {
     /// <summary>
-    /// RichEditBoxの段落設定に対応したルーラーの描画を支援するクラスです。
+    /// Helper types for drawing the ruler based on RichEditBox paragraph settings.
     /// </summary>
     internal class RulerHelper
     {
         /// <summary>
-        /// ルーラーの目盛りとインデントマーカーを描画するクラスです。
+        /// Draws ruler ticks and indent markers.
         /// </summary>
         public static class RulerDrawer
         {
             /// <summary>
-            /// 指定されたCanvasに、ページ設定に基づくルーラーの目盛りと
-            /// RichEditBoxの段落インデントを示すマーカーを描画します。
+            /// Draws ruler ticks and paragraph indent markers on the specified canvas.
             /// </summary>
-            /// <param name="canvas">
-            /// ルーラーを描画する対象のCanvas。
-            /// </param>
-            /// <param name="editor">
-            /// 段落のインデント情報を取得する対象のRichEditBox。
-            /// </param>
-            /// <param name="pageSettings">
-            /// ルーラーの表示範囲を決定するページ設定。
-            /// </param>
-            /// <param name="attachMarkerEvents">
-            /// 各インデントマーカーにマウスやポインター操作の
-            /// イベントを登録するためのコールバック。
-            /// </param>
+            /// <param name="canvas">The target canvas for ruler rendering.</param>
+            /// <param name="editor">The RichEditBox used to read current paragraph indent values.</param>
+            /// <param name="pageSettings">The page settings that define ruler bounds.</param>
+            /// <param name="attachMarkerEvents">Callback used to attach pointer events to each marker.</param>
             /// <remarks>
-            /// 描画前にCanvasの既存の子要素をすべて削除します。
-            /// 印刷可能領域の左端を基準として、0.25cm間隔で目盛りを描画し、
-            /// 1cmごとに数値ラベルを表示します。
-            /// 目盛りの描画後、先頭行、左、右のインデントマーカーを配置します。
+            /// Existing canvas children are cleared first.
+            /// Tick marks are rendered every 0.25 cm and numeric labels are shown every 1 cm.
+            /// After drawing ticks, first-line, left, and right indent markers are placed.
             /// </remarks>
             public static void Draw(
                 Canvas canvas,
@@ -102,35 +91,17 @@ namespace wordpadneo.Helpers
             }
 
             /// <summary>
-            /// RichEditBoxの現在の段落書式に基づき、
-            /// ルーラー上に3種類のインデントマーカーを描画します。
+            /// Draws three indent markers on the ruler using the current paragraph format.
             /// </summary>
-            /// <param name="canvas">
-            /// インデントマーカーを配置する対象のCanvas。
-            /// </param>
-            /// <param name="editor">
-            /// 現在の選択範囲から段落のインデント情報を取得するRichEditBox。
-            /// </param>
-            /// <param name="pageSettings">
-            /// マーカーの位置を計算するためのページ設定。
-            /// </param>
-            /// <param name="fillBrush">
-            /// インデントマーカーの塗りつぶしに使用するブラシ。
-            /// </param>
-            /// <param name="attachMarkerEvents">
-            /// 生成した各マーカーに操作イベントを登録するコールバック。
-            /// </param>
+            /// <param name="canvas">The canvas where markers are placed.</param>
+            /// <param name="editor">The RichEditBox used to read paragraph indent values from selection.</param>
+            /// <param name="pageSettings">Page settings used to calculate marker positions.</param>
+            /// <param name="fillBrush">Brush used to fill marker shapes.</param>
+            /// <param name="attachMarkerEvents">Callback used to attach interaction events to created markers.</param>
             /// <remarks>
-            /// RichEditBoxの選択範囲から先頭行、左、右のインデント値を
-            /// ポイント単位で取得し、ピクセル単位へ変換して配置します。
-            ///
-            /// 各マーカーには識別用のTagを設定します。
-            /// FirstLine：先頭行インデント
-            /// Left：左インデント
-            /// Right：右インデント
-            ///
-            /// 各マーカーをCanvasに追加する前に、
-            /// attachMarkerEventsを呼び出してイベントを登録します。
+            /// First-line, left, and right indents are read in points and converted to pixels.
+            /// Marker tags are set as: FirstLine, Left, and Right.
+            /// Events are attached through <paramref name="attachMarkerEvents"/> before adding markers to the canvas.
             /// </remarks>
             private static void DrawMarkers(
                 Canvas canvas,

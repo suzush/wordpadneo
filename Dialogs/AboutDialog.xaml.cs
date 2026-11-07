@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using wordpadneo.Helpers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,14 +30,20 @@ namespace wordpadneo.Dialogs
 
         private void LoadVersion()
         {
+            string format = LocalizationHelper.GetString("AboutDialog_VersionFormat");
+            if (string.IsNullOrWhiteSpace(format))
+            {
+                format = "Version {0}.{1}.{2}";
+            }
+
             try
             {
                 var version = Package.Current.Id.Version;
-                VersionText.Text = $"Version {version.Major}.{version.Minor}.{version.Build}";
+                VersionText.Text = string.Format(format, version.Major, version.Minor, version.Build);
             }
             catch
             {
-                VersionText.Text = "Version 1.0.0 (Debug)";
+                VersionText.Text = string.Format(format, 1, 0, 0) + " (Debug)";
             }
         }
     }

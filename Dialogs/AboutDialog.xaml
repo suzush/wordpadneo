@@ -6,6 +6,7 @@
     xmlns:local="using:wordpadneo.Dialogs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Uid="AboutDialog"
     mc:Ignorable="d"
     Title="バージョン情報"
     PrimaryButtonText="閉じる"
@@ -31,7 +32,8 @@
 
         <MenuFlyoutSeparator Margin="0,5,0,5"/>
 
-        <TextBlock Text="© 2026 Suzush Labs" 
+        <TextBlock x:Uid="AboutDialog_CopyrightText"
+                   Text="© 2026 Suzush Labs" 
                    FontSize="12" 
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
     </StackPanel>

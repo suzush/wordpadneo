@@ -1,6 +1,6 @@
-﻿
-using wordpadneo.Constants;
+﻿using wordpadneo.Constants;
 using wordpadneo.Dialogs;
+using wordpadneo.Helpers;
 using wordpadneo.Services;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
@@ -12,44 +12,47 @@ using Windows.Storage;
 namespace wordpadneo.Views
 {
     /// <summary>
-    /// メインウィンドウのファイル操作、ページ設定、
-    /// アプリケーション終了処理を管理します。
+    /// Manages file operations, page settings, and application shutdown
+    /// for the main window.
     /// </summary>
     partial class MainWindow
     {
         /// <summary>
-        /// メインウィンドウのネイティブウィンドウハンドルを取得します。
+        /// Gets the native window handle of the main window.
         /// </summary>
         /// <value>
-        /// メインウィンドウを表すウィンドウハンドル。
+        /// The window handle representing the main window.
         /// </value>
         /// <remarks>
-        /// ファイル選択ダイアログなどの親ウィンドウを
-        /// 指定する際に使用します。
+        /// Used to specify the parent window for file picker dialogs
+        /// and other native dialogs.
         /// </remarks>
         private IntPtr WindowHandle => WinRT.Interop.WindowNative.GetWindowHandle(this);
 
         /// <summary>
-        /// 現在編集中のファイル名に基づいてウィンドウタイトルを更新します。
+        /// Updates the window title based on the name of the currently edited file.
         /// </summary>
         /// <remarks>
-        /// ファイルが開かれている場合はそのファイル名を使用します。
-        /// 新規文書の場合は「ドキュメント」を使用し、
-        /// アプリケーション名「WordPad Neo」を付加して表示します。
+        /// Uses the file name if a file is open.
+        /// For a new document, uses the default document name
+        /// and appends the application name, "WordPad Neo".
         /// </remarks>
         public void UpdateWindowTitle()
         {
-            string fileName = _currentFile != null ? _currentFile.Name : "ドキュメント";
-            Title = $"{fileName} - WordPad Neo";
+            string fileName = _currentFile != null
+                ? _currentFile.Name
+                : LocalizationHelper.GetString("MainWindow_DefaultDocumentName");
+            string appName = LocalizationHelper.GetString("Common_AppName");
+            Title = $"{fileName} - {appName}";
         }
 
         /// <summary>
-        /// RichEditBoxの元に戻す操作の履歴を初期化します。
+        /// Resets the undo history of the RichEditBox.
         /// </summary>
         /// <remarks>
-        /// UndoLimitを一度0に設定して履歴をクリアした後、
-        /// 最大500回分の操作履歴を保持できるように設定します。
-        /// エディターまたは文書が存在しない場合は処理を行いません。
+        /// Clears the undo history by temporarily setting UndoLimit to 0,
+        /// then configures it to retain up to 500 undo operations.
+        /// No action is taken if the editor or its document is unavailable.
         /// </remarks>
         private void ResetUndoLimit()
         {
@@ -60,20 +63,20 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 新規文書を作成するボタンのクリックイベントを処理します。
+        /// Handles the click event of the New Document button.
         /// </summary>
         /// <param name="sender">
-        /// イベントを発生させたオブジェクト。
+        /// The object that raised the event.
         /// </param>
         /// <param name="e">
-        /// クリックイベントのデータ。
+        /// The click event data.
         /// </param>
         /// <remarks>
-        /// 現在の文書に未保存の変更がある場合は、
-        /// 新規文書を作成する前に保存確認を行います。
-        /// 終了が許可された場合は文書を初期化し、
-        /// ファイル情報、操作履歴、保存状態および
-        /// ウィンドウタイトルを更新します。
+        /// Prompts the user to save any unsaved changes before creating
+        /// a new document.
+        /// If closing the current document is permitted, clears the document
+        /// and resets the file information, undo history, save state,
+        /// and window title.
         /// </remarks>
         private async void NewButton_Click(object sender, RoutedEventArgs e)
         {
@@ -97,20 +100,20 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// ファイルを開くボタンのクリックイベントを処理します。
+        /// Handles the click event of the Open File button.
         /// </summary>
         /// <param name="sender">
-        /// イベントを発生させたオブジェクト。
+        /// The object that raised the event.
         /// </param>
         /// <param name="e">
-        /// クリックイベントのデータ。
+        /// The click event data.
         /// </param>
         /// <remarks>
-        /// ファイル選択ダイアログを表示し、
-        /// 選択されたRTFまたはTXT形式の文書を読み込みます。
-        /// 読み込みに成功した場合は現在のファイル情報を更新し、
-        /// 操作履歴と保存状態を初期化します。
-        /// 最後にページレイアウトを更新します。
+        /// Displays a file picker dialog and loads the selected
+        /// RTF or TXT document.
+        /// If the file is loaded successfully, updates the current file
+        /// information and resets the undo history and save state.
+        /// Finally, updates the page layout.
         /// </remarks>
         private async void OpenButton_Click(object sender, RoutedEventArgs e)
         {
@@ -126,19 +129,19 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 上書き保存ボタンのクリックイベントを処理します。
+        /// Handles the click event of the Save button.
         /// </summary>
         /// <param name="sender">
-        /// イベントを発生させたオブジェクト。
+        /// The object that raised the event.
         /// </param>
         /// <param name="e">
-        /// クリックイベントのデータ。
+        /// The click event data.
         /// </param>
         /// <remarks>
-        /// 現在のファイルが存在する場合は上書き保存します。
-        /// 新規文書の場合は名前を付けて保存ダイアログを表示します。
-        /// 保存に成功した場合はファイル情報を更新し、
-        /// 操作履歴を初期化して保存済み状態に変更します。
+        /// Overwrites the current file if one exists.
+        /// For a new document, displays the Save As dialog.
+        /// If saving succeeds, updates the file information,
+        /// resets the undo history, and marks the document as saved.
         /// </remarks>
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -161,19 +164,19 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// 名前を付けて保存ボタンのクリックイベントを処理します。
+        /// Handles the click event of the Save As button.
         /// </summary>
         /// <param name="sender">
-        /// イベントを発生させたオブジェクト。
+        /// The object that raised the event.
         /// </param>
         /// <param name="e">
-        /// クリックイベントのデータ。
+        /// The click event data.
         /// </param>
         /// <remarks>
-        /// ファイル保存ダイアログを表示し、
-        /// 保存先とファイル形式を選択して文書を保存します。
-        /// 保存に成功した場合は現在のファイル情報、
-        /// 操作履歴、保存状態およびウィンドウタイトルを更新します。
+        /// Displays a file save dialog that allows the user to select
+        /// a destination and file format.
+        /// If saving succeeds, updates the current file information,
+        /// undo history, save state, and window title.
         /// </remarks>
         private async void SaveAsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -188,19 +191,19 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// メインウィンドウが閉じられる際のイベントを処理します。
+        /// Handles the event raised when the main window is closing.
         /// </summary>
         /// <param name="sender">
-        /// 終了処理を開始したAppWindow。
+        /// The AppWindow that initiated the closing operation.
         /// </param>
         /// <param name="args">
-        /// ウィンドウ終了処理を制御するイベントデータ。
+        /// The event data used to control the window closing operation.
         /// </param>
         /// <remarks>
-        /// いったんウィンドウの終了をキャンセルし、
-        /// 未保存の変更がある場合は保存確認を行います。
-        /// 終了が許可された場合は保存済み状態に変更し、
-        /// Closingイベントの登録を解除してウィンドウを閉じます。
+        /// Initially cancels the window closing operation and prompts
+        /// the user to save any unsaved changes.
+        /// If closing is permitted, marks the document as saved,
+        /// unsubscribes from the Closing event, and closes the window.
         /// </remarks>
         private async void AppWindow_Closing(
             Microsoft.UI.Windowing.AppWindow sender,
@@ -227,19 +230,19 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// アプリケーション終了ボタンのクリックイベントを処理します。
+        /// Handles the click event of the Exit Application button.
         /// </summary>
         /// <param name="sender">
-        /// イベントを発生させたオブジェクト。
+        /// The object that raised the event.
         /// </param>
         /// <param name="e">
-        /// クリックイベントのデータ。
+        /// The click event data.
         /// </param>
         /// <remarks>
-        /// ウィンドウを閉じる前に文書の保存状態を確認します。
-        /// 未保存の変更がある場合は保存確認ダイアログを表示します。
-        /// 終了が許可された場合はClosingイベントの登録を解除し、
-        /// メインウィンドウを閉じます。
+        /// Checks the document's save state before closing the window.
+        /// Displays a confirmation dialog if unsaved changes exist.
+        /// If closing is permitted, unsubscribes from the Closing event
+        /// and closes the main window.
         /// </remarks>
         private async void ExitButton_Click(object sender, RoutedEventArgs e)
         {
@@ -262,20 +265,20 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// ページ設定ボタンのクリックイベントを処理します。
+        /// Handles the click event of the Page Setup button.
         /// </summary>
         /// <param name="sender">
-        /// イベントを発生させたオブジェクト。
+        /// The object that raised the event.
         /// </param>
         /// <param name="e">
-        /// クリックイベントのデータ。
+        /// The click event data.
         /// </param>
         /// <remarks>
-        /// ページ設定ダイアログを表示し、
-        /// 用紙サイズや余白の設定変更を受け付けます。
-        /// 設定が確定された場合は左右の余白をピクセル単位に変換し、
-        /// RichEditBoxのPaddingへ反映します。
-        /// その後、ルーラーとページレイアウトを更新します。
+        /// Displays the Page Setup dialog and allows the user
+        /// to modify the paper size and margins.
+        /// If the settings are confirmed, converts the left and right
+        /// margins to pixels and applies them to the RichEditBox padding.
+        /// Then updates the ruler and page layout.
         /// </remarks>
         private async void PageSetupButton_Click(object sender, RoutedEventArgs e)
         {
@@ -296,18 +299,18 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// アプリケーション情報ボタンのクリックイベントを処理します。
+        /// Handles the click event of the About button.
         /// </summary>
         /// <param name="sender">
-        /// イベントを発生させたオブジェクト。
+        /// The object that raised the event.
         /// </param>
         /// <param name="e">
-        /// クリックイベントのデータ。
+        /// The click event data.
         /// </param>
         /// <remarks>
-        /// AboutDialogを表示し、
-        /// アプリケーションに関する情報をユーザーに提示します。
-        /// ダイアログが閉じられるまで非同期で待機します。
+        /// Displays the AboutDialog to provide the user with
+        /// information about the application.
+        /// Asynchronously waits until the dialog is closed.
         /// </remarks>
         private async void AboutButton_Click(object sender, RoutedEventArgs e)
         {

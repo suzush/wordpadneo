@@ -1,5 +1,4 @@
-﻿
-using wordpadneo.Helpers;
+﻿using wordpadneo.Helpers;
 using wordpadneo.Models;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
@@ -13,36 +12,39 @@ using Windows.Storage.Pickers;
 namespace wordpadneo.Services
 {
     /// <summary>
-    /// 文書ファイルの読み込み、保存、および終了確認を行うクラスです。
+    /// Provides functionality for opening, saving, and confirming
+    /// the closure of document files.
     /// </summary>
     /// <remarks>
-    /// RTF形式およびプレーンテキスト形式のファイルをサポートします。
-    /// ファイル選択にはWindowsのファイルピッカーを使用し、
-    /// 文書の終了時には必要に応じて保存確認ダイアログを表示します。
+    /// Supports both RTF and plain text file formats.
+    /// Uses Windows file pickers for file selection and displays
+    /// a save confirmation dialog when closing a document, if necessary.
     /// </remarks>
     internal class FileService
     {
         /// <summary>
-        /// ファイル選択ダイアログを表示し、選択された文書をRichEditBoxに読み込みます。
+        /// Displays a file picker dialog and loads the selected document
+        /// into the RichEditBox.
         /// </summary>
         /// <param name="editor">
-        /// 読み込んだ文書を表示する対象のRichEditBox。
+        /// The RichEditBox in which the loaded document is displayed.
         /// </param>
         /// <param name="pageSettings">
-        /// RTF文書に含まれる用紙サイズや余白情報を反映するページ設定。
+        /// The page settings to update with paper size and margin
+        /// information from an RTF document.
         /// </param>
         /// <param name="windowHandle">
-        /// ファイル選択ダイアログの親ウィンドウを示すハンドル。
+        /// The handle of the parent window for the file picker dialog.
         /// </param>
         /// <returns>
-        /// 読み込みに成功した場合は選択されたStorageFile。
-        /// ファイル選択がキャンセルされた場合、または
-        /// 対応していないファイル形式の場合はnull。
+        /// The selected StorageFile if loading succeeds.
+        /// Null if file selection is canceled or the file format
+        /// is not supported.
         /// </returns>
         /// <remarks>
-        /// RTF形式の場合は、文書の内容とページ設定を読み込みます。
-        /// TXT形式の場合は、プレーンテキストとして文書を読み込みます。
-        /// ファイルの読み込みは非同期で実行されます。
+        /// For RTF files, loads the document content and page settings.
+        /// For TXT files, loads the document as plain text.
+        /// File loading is performed asynchronously.
         /// </remarks>
         public static async Task<StorageFile> OpenFileAsync(
             RichEditBox editor,
@@ -82,30 +84,33 @@ namespace wordpadneo.Services
         }
 
         /// <summary>
-        /// RichEditBoxの文書を、指定されたファイルに保存します。
+        /// Saves the document contained in the RichEditBox
+        /// to the specified file.
         /// </summary>
         /// <param name="editor">
-        /// 保存対象の文書を保持するRichEditBox。
+        /// The RichEditBox containing the document to save.
         /// </param>
         /// <param name="pageSettings">
-        /// RTF形式で保存する際に文書へ反映するページ設定。
+        /// The page settings to include when saving in RTF format.
         /// </param>
         /// <param name="windowHandle">
-        /// 呼び出し元のウィンドウハンドル。
-        /// 現在の実装では使用されません。
+        /// The handle of the calling window.
+        /// This parameter is not used in the current implementation.
         /// </param>
         /// <param name="file">
-        /// 保存先となるStorageFile。
+        /// The StorageFile representing the save destination.
         /// </param>
         /// <returns>
-        /// 保存に成功した場合は保存先のStorageFile。
-        /// 対応していないファイル形式の場合はnull。
+        /// The destination StorageFile if saving succeeds.
+        /// Null if the file format is not supported.
         /// </returns>
         /// <remarks>
-        /// RTF形式の場合は、ページ設定を含むRTF文字列を生成して保存します。
-        /// TXT形式の場合は、書式情報を含まないプレーンテキストとして保存します。
-        /// 保存先に既存の内容がある場合は上書きされます。
-        /// ファイルへの書き込みは非同期で実行されます。
+        /// For RTF files, generates and saves an RTF string
+        /// containing the page settings.
+        /// For TXT files, saves the document as plain text
+        /// without formatting information.
+        /// Any existing content in the destination file is overwritten.
+        /// File writing is performed asynchronously.
         /// </remarks>
         public static async Task<StorageFile> SaveFileAsync(
             RichEditBox editor,
@@ -135,27 +140,27 @@ namespace wordpadneo.Services
         }
 
         /// <summary>
-        /// 名前を付けて保存ダイアログを表示し、
-        /// RichEditBoxの文書を指定されたファイルに保存します。
+        /// Displays the Save As dialog and saves the document
+        /// contained in the RichEditBox to the specified file.
         /// </summary>
         /// <param name="editor">
-        /// 保存対象の文書を保持するRichEditBox。
+        /// The RichEditBox containing the document to save.
         /// </param>
         /// <param name="pageSettings">
-        /// RTF形式で保存する際に反映するページ設定。
+        /// The page settings to apply when saving in RTF format.
         /// </param>
         /// <param name="windowHandle">
-        /// ファイル保存ダイアログの親ウィンドウを示すハンドル。
+        /// The handle of the parent window for the file save dialog.
         /// </param>
         /// <returns>
-        /// 保存処理を実行した場合は保存先のStorageFile。
-        /// ファイル選択がキャンセルされた場合はnull。
+        /// The destination StorageFile if the save operation is performed.
+        /// Null if file selection is canceled.
         /// </returns>
         /// <remarks>
-        /// 保存形式としてRTF形式またはTXT形式を選択できます。
-        /// 初期保存先にはドキュメントライブラリを指定し、
-        /// 既定のファイル名には「New Document」を使用します。
-        /// 実際のファイル書き込みにはSaveFileAsyncメソッドを使用します。
+        /// Allows the user to select either RTF or TXT format.
+        /// Uses the Documents library as the initial save location
+        /// and "New Document" as the default file name.
+        /// Uses the SaveFileAsync method to perform the actual file writing.
         /// </remarks>
         public static async Task<StorageFile> SaveAsAsync(
             RichEditBox editor,
@@ -182,45 +187,45 @@ namespace wordpadneo.Services
         }
 
         /// <summary>
-        /// 文書を閉じる際に未保存の変更があるかを確認し、
-        /// 必要に応じて保存確認ダイアログを表示します。
+        /// Checks whether the document has unsaved changes before closing
+        /// and displays a save confirmation dialog if necessary.
         /// </summary>
         /// <param name="xamlRoot">
-        /// 保存確認ダイアログを表示するためのXamlRoot。
+        /// The XamlRoot used to display the save confirmation dialog.
         /// </param>
         /// <param name="editor">
-        /// 終了対象の文書を保持するRichEditBox。
+        /// The RichEditBox containing the document to close.
         /// </param>
         /// <param name="isFileSaved">
-        /// 文書が保存済みかどうかを示す値。
-        /// trueの場合は保存確認を行わず終了を許可します。
+        /// Indicates whether the document has been saved.
+        /// If true, closing is permitted without prompting for confirmation.
         /// </param>
         /// <param name="currentFile">
-        /// 現在編集中のファイル。
-        /// 現在の実装では使用されません。
+        /// The file currently being edited.
+        /// This parameter is not used in the current implementation.
         /// </param>
         /// <param name="pageSettings">
-        /// 文書を保存する際に使用するページ設定。
+        /// The page settings used when saving the document.
         /// </param>
         /// <param name="windowHandle">
-        /// 保存ダイアログの親ウィンドウを示すハンドル。
+        /// The handle of the parent window for the save dialog.
         /// </param>
         /// <returns>
-        /// 文書を閉じてもよい場合はtrue。
-        /// 保存ダイアログがキャンセルされた場合や、
-        /// 保存先が選択されなかった場合はfalse。
+        /// True if the document can be closed.
+        /// False if the save dialog is canceled or no save destination
+        /// is selected.
         /// </returns>
         /// <remarks>
-        /// 未保存の変更がある場合は、保存、保存しない、
-        /// キャンセルの3つの選択肢を表示します。
+        /// If unsaved changes exist, displays three options:
+        /// Save, Don't Save, and Cancel.
         ///
-        /// 「保存」を選択した場合はSaveAsAsyncを呼び出し、
-        /// 保存先が選択されると終了を許可します。
+        /// If Save is selected, calls SaveAsAsync and permits closing
+        /// when a save destination is selected.
         ///
-        /// 「保存しない」を選択した場合は、
-        /// 変更内容を保存せずに終了を許可します。
+        /// If Don't Save is selected, permits closing without saving
+        /// the changes.
         ///
-        /// 「キャンセル」を選択した場合は終了を中止します。
+        /// If Cancel is selected, aborts the closing operation.
         /// </remarks>
         public static async Task<bool> CloseDocumentAsync(
             XamlRoot xamlRoot,
@@ -237,11 +242,11 @@ namespace wordpadneo.Services
                 {
                     XamlRoot = xamlRoot,
                     Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                    Title = "作業内容を保存しますか?",
-                    Content = "変更内容を保存しない場合、編集内容は失われます。",
-                    PrimaryButtonText = "保存",
-                    SecondaryButtonText = "保存しない",
-                    CloseButtonText = "キャンセル",
+                    Title = LocalizationHelper.GetString("CloseDocumentDialog_Title"),
+                    Content = LocalizationHelper.GetString("CloseDocumentDialog_Content"),
+                    PrimaryButtonText = LocalizationHelper.GetString("CloseDocumentDialog_SaveButton"),
+                    SecondaryButtonText = LocalizationHelper.GetString("CloseDocumentDialog_DontSaveButton"),
+                    CloseButtonText = LocalizationHelper.GetString("Common_Cancel"),
                     DefaultButton = ContentDialogButton.Primary
                 };
 

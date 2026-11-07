@@ -10,32 +10,26 @@ using Windows.Foundation;
 namespace wordpadneo.Views
 {
     /// <summary>
-    /// メインウィンドウにおけるルーラーの描画と
-    /// インデントマーカーの操作を管理します。
+    /// Handles ruler rendering and indent marker interaction in the main window.
     /// </summary>
     partial class MainWindow
     {
         /// <summary>
-        /// ルーラーのCanvasサイズが変更された際に描画を更新します。
+        /// Redraws the ruler when the ruler canvas size changes.
         /// </summary>
-        /// <param name="sender">
-        /// サイズ変更イベントを発生させたオブジェクト。
-        /// </param>
-        /// <param name="e">
-        /// サイズ変更前後の情報を含むイベントデータ。
-        /// </param>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Size change event data.</param>
         private void RulerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             DrawRuler();
         }
 
         /// <summary>
-        /// 現在のページ設定と段落書式に基づいてルーラーを描画します。
+        /// Draws the ruler based on current page settings and paragraph formatting.
         /// </summary>
         /// <remarks>
-        /// RulerHelper.RulerDrawer.Drawメソッドを使用して、
-        /// 目盛りとインデントマーカーを描画します。
-        /// マーカーのイベント登録にはAttachMarkerEventsを使用します。
+        /// Uses <see cref="RulerHelper.RulerDrawer.Draw"/> to render ticks and indent markers,
+        /// and attaches marker events through <see cref="AttachMarkerEvents"/>.
         /// </remarks>
         private void DrawRuler()
         {
@@ -43,14 +37,11 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// インデントマーカーにポインター押下イベントを登録します。
+        /// Registers pointer-pressed events for an indent marker.
         /// </summary>
-        /// <param name="element">
-        /// イベントを登録する対象のインデントマーカー。
-        /// </param>
+        /// <param name="element">The indent marker element.</param>
         /// <remarks>
-        /// マーカーが押された際にMarker_PointerPressedが呼び出されるよう、
-        /// PointerPressedイベントへハンドラーを登録します。
+        /// Hooks <see cref="Marker_PointerPressed"/> to the marker's PointerPressed event.
         /// </remarks>
         private void AttachMarkerEvents(FrameworkElement element)
         {
@@ -58,21 +49,13 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// インデントマーカーが押された際にドラッグ操作を開始します。
+        /// Starts dragging when an indent marker is pressed.
         /// </summary>
-        /// <param name="sender">
-        /// ポインター押下イベントを発生させたマーカー。
-        /// </param>
-        /// <param name="e">
-        /// ポインターの情報を含むイベントデータ。
-        /// </param>
+        /// <param name="sender">The marker that raised the event.</param>
+        /// <param name="e">Pointer event data.</param>
         /// <remarks>
-        /// 操作対象のマーカーとその種類を記録し、
-        /// ドラッグ中の状態へ切り替えます。
-        /// ルーラーCanvasでポインターをキャプチャし、
-        /// 移動、解放、キャンセルのイベントを登録します。
-        /// イベントハンドラーの重複登録を防ぐため、
-        /// 登録前に既存のハンドラーを解除します。
+        /// Stores the active marker and marker type, captures the pointer on the ruler canvas,
+        /// and ensures move/release/cancel handlers are re-registered without duplicates.
         /// </remarks>
         private void Marker_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -97,31 +80,17 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// インデントマーカーのドラッグ位置に応じて、
-        /// 選択中の段落のインデント値を更新します。
+        /// Updates paragraph indent values while dragging an indent marker.
         /// </summary>
-        /// <param name="sender">
-        /// ポインター移動イベントを発生させたオブジェクト。
-        /// </param>
-        /// <param name="e">
-        /// 現在のポインター位置を含むイベントデータ。
-        /// </param>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Pointer event data containing current pointer position.</param>
         /// <remarks>
-        /// ドラッグ中のマーカーの種類に応じて、
-        /// 先頭行インデント、左インデント、右インデントを変更します。
-        ///
-        /// マーカーの種類は以下のとおりです。
-        /// FirstLine：先頭行インデント
-        /// Left：左インデント
-        /// Right：右インデント
-        ///
-        /// ポインター座標をセンチメートル単位に変換し、
-        /// 0.25cm刻みでスナップ処理を行います。
-        /// 算出した値をポイント単位に変換して段落書式へ反映します。
-        ///
-        /// 更新中は_isUpdatingをtrueに設定して、
-        /// 選択範囲の変更に伴う画面更新との競合を抑制します。
-        /// インデントの更新後はルーラーを再描画します。
+        /// Adjusts first-line, left, or right indent based on the active marker type
+        /// (FirstLine, Left, or Right).
+        /// Pointer positions are snapped in 0.25 cm increments and converted to points
+        /// before applying to paragraph formatting.
+        /// The method temporarily enables <c>_isUpdating</c> to avoid UI update conflicts,
+        /// then redraws the ruler.
         /// </remarks>
         private void RulerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
@@ -194,18 +163,13 @@ namespace wordpadneo.Views
         }
 
         /// <summary>
-        /// インデントマーカーのドラッグ操作を終了します。
+        /// Ends marker dragging on pointer release or cancel.
         /// </summary>
-        /// <param name="sender">
-        /// ポインター解放またはキャンセルイベントを発生させたオブジェクト。
-        /// </param>
-        /// <param name="e">
-        /// 解放またはキャンセルされたポインターのイベントデータ。
-        /// </param>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Pointer event data for the released/canceled pointer.</param>
         /// <remarks>
-        /// ドラッグ状態を解除し、操作対象のマーカー情報を初期化します。
-        /// ポインターのキャプチャを解除した後、
-        /// 移動、解放、キャンセルのイベントハンドラーを解除します。
+        /// Clears drag state, resets active marker information, releases pointer capture,
+        /// and detaches move/release/cancel handlers from the ruler canvas.
         /// </remarks>
         private void RulerCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
