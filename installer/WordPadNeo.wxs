@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <!-- Define AppVersion and PayloadDir via wix build -d ... -->
+  <!-- UpgradeCode must stay stable across releases and architectures of this installer line. -->
+  <Package Name="WordPad Neo"
+           Manufacturer="suzush"
+           Version="$(var.AppVersion)"
+           UpgradeCode="BAC74235-E795-44D0-B012-0602B35E524B"
+           Scope="perMachine">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of WordPad Neo is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <!-- Installed Apps / Programs and Features icon (not Explorer MSI file icon). -->
+    <Icon Id="WordPadNeo.ico" SourceFile="$(var.AppIconPath)" />
+    <Property Id="ARPPRODUCTICON" Value="WordPadNeo.ico" />
+
+    <!-- Create a Start Menu shortcut. Keep component GUID stable across releases. -->
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="WordPadNeoProgramsFolder" Name="WordPad Neo" />
+    </StandardDirectory>
+    <Component Id="WordPadNeoStartMenuShortcut" Directory="WordPadNeoProgramsFolder" Guid="0AB79FF1-78AD-4816-96A7-F2998455B315">
+      <Shortcut Id="WordPadNeoShortcut" Name="WordPad Neo"
+                Target="[INSTALLFOLDER]wordpadneo.exe"
+                WorkingDirectory="INSTALLFOLDER" Icon="WordPadNeo.ico" />
+      <RemoveFolder Id="RemoveWordPadNeoProgramsFolder" On="uninstall" />
+      <RegistryValue Root="HKLM" Key="Software\suzush\WordPadNeo"
+                     Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+    <!-- Include all files and subfolders of an already published, self-contained app. -->
+    <Files Include="$(var.PayloadDir)\**">
+      <Exclude Files="**\*.pdb" />
+    </Files>
+  </Package>
+</Wix>

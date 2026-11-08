@@ -7,13 +7,31 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;ARM64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <PublishProfile Condition="'$(Packaged)' == 'true'">win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <WinUISDKReferences>false</WinUISDKReferences>
-    <EnableMsixTooling>true</EnableMsixTooling>
+    <Configurations>Debug;Release;Debug-Unpackaged;Release-Unpackaged;Debug-Unpackaged</Configurations>
+    <Packaged>true</Packaged>
+    <Packaged Condition="'$(Configuration)' == 'Debug-Unpackaged' Or '$(Configuration)' == 'Release-Unpackaged'">false</Packaged>
     <Nullable>enable</Nullable>
     <SelfContained>true</SelfContained>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
   </PropertyGroup>
+
+  <!-- Unpackaged configuration -->
+  <PropertyGroup Condition="'$(Packaged)' == 'false'">
+    <EnableMsixTooling>false</EnableMsixTooling>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+
+  <!-- Packaged configuration -->
+  <PropertyGroup Condition="'$(Packaged)' == 'true'">
+    <EnableMsixTooling>true</EnableMsixTooling>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-16.png" />
     <Content Remove="Assets\AppIcon.altform-lightunplated_targetsize-24.png" />
@@ -113,10 +131,11 @@
 
   <!-- Publish Properties -->
   <PropertyGroup>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Release'">true</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Release-Unpackaged'">false</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug' Or '$(Configuration)' == 'Debug-Unpackaged'">false</PublishReadyToRun>
+    <PublishTrimmed Condition="'$(Configuration)' == 'Release'">true</PublishTrimmed>
+    <PublishTrimmed Condition="'$(Configuration)' != 'Release'">false</PublishTrimmed>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <PublishAot>False</PublishAot>
     <AssemblyName></AssemblyName>
@@ -131,5 +150,14 @@
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <DefaultLanguage>en-US</DefaultLanguage>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Unpackaged|x86'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Unpackaged|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Unpackaged|ARM64'">
+    <Optimize>True</Optimize>
   </PropertyGroup>
 </Project>
