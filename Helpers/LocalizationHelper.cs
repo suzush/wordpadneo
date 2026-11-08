@@ -1,4 +1,4 @@
-using Microsoft.Windows.ApplicationModel.Resources;
+﻿using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace wordpadneo.Helpers
 {
@@ -14,7 +14,12 @@ namespace wordpadneo.Helpers
             }
 
             string value = _resourceLoader.GetString(resourceKey);
-            return string.IsNullOrWhiteSpace(value) ? resourceKey : value;
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return resourceKey;
+            }
+
+            return value;
         }
     }
 }

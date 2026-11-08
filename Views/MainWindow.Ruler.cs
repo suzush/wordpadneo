@@ -1,11 +1,10 @@
-﻿
-using wordpadneo.Constants;
-using wordpadneo.Helpers;
-using Microsoft.UI.Text;
+﻿using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System;
 using Windows.Foundation;
+using wordpadneo.Constants;
+using wordpadneo.Helpers;
 
 namespace wordpadneo.Views
 {
@@ -94,12 +93,18 @@ namespace wordpadneo.Views
         /// </remarks>
         private void RulerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (!_isDragging || _activeMarker == null || _markerType == null) return;
+            if (!_isDragging || _activeMarker == null || _markerType == null)
+            {
+                return;
+            }
 
             Point pos = e.GetCurrentPoint(rulerCanvas).Position;
 
             ITextSelection selection = editor.Document.Selection;
-            if (selection == null) return;
+            if (selection == null)
+            {
+                return;
+            }
 
             ITextParagraphFormat format = selection.ParagraphFormat;
 

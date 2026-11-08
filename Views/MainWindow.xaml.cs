@@ -1,7 +1,6 @@
-using wordpadneo.Models;
-using Microsoft.UI.Xaml;
-using System;
+﻿using Microsoft.UI.Xaml;
 using Windows.Storage;
+using wordpadneo.Models;
 
 
 namespace wordpadneo.Views

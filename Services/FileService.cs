@@ -1,6 +1,4 @@
-﻿using wordpadneo.Helpers;
-using wordpadneo.Models;
-using Microsoft.UI.Text;
+﻿using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -8,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using wordpadneo.Helpers;
+using wordpadneo.Models;
 
 namespace wordpadneo.Services
 {
@@ -62,14 +62,17 @@ namespace wordpadneo.Services
             WinRT.Interop.InitializeWithWindow.Initialize(openPicker, windowHandle);
 
             StorageFile file = await openPicker.PickSingleFileAsync();
-            if (file == null) return null;
+            if (file == null)
+            {
+                return null;
+            }
 
             string contentToLoad = await FileIO.ReadTextAsync(file);
 
             switch (file.FileType.ToLower())
             {
                 case ".rtf":
-                    RtfHelper.SetFormattedRtf(editor, contentToLoad, pageSettings);
+                    RtfHelper.LoadRtfDocument(editor, contentToLoad, pageSettings);
                     break;
 
                 case ".txt":
@@ -123,7 +126,7 @@ namespace wordpadneo.Services
             switch (file.FileType.ToLower())
             {
                 case ".rtf":
-                    contentToSave = RtfHelper.GetFormattedRtf(editor, pageSettings);
+                    contentToSave = RtfHelper.GetRtfDocument(editor, pageSettings);
                     break;
 
                 case ".txt":
@@ -179,7 +182,10 @@ namespace wordpadneo.Services
             WinRT.Interop.InitializeWithWindow.Initialize(savePicker, windowHandle);
 
             StorageFile file = await savePicker.PickSaveFileAsync();
-            if (file == null) return null;
+            if (file == null)
+            {
+                return null;
+            }
 
             await SaveFileAsync(editor, pageSettings, windowHandle, file);
 

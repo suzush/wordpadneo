@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.UI.Text;
+using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Microsoft.UI.Text;
-using Microsoft.UI.Xaml.Controls;
 using wordpadneo.Models;
 
 namespace wordpadneo.Helpers
@@ -16,13 +16,23 @@ namespace wordpadneo.Helpers
         /// A Win32 structure that stores the coordinates of a rectangle.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        private struct RECT { public int left, top, right, bottom; }
+        private struct RECT
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
 
         /// <summary>
         /// A structure that stores a RichEdit character range.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        private struct CHARRANGE { public int cpMin, cpMax; }
+        private struct CHARRANGE
+        {
+            public int cpMin;
+            public int cpMax;
+        }
 
         /// <summary>
         /// A structure that specifies the RichEdit page layout bounds and destination device context.
@@ -30,8 +40,10 @@ namespace wordpadneo.Helpers
         [StructLayout(LayoutKind.Sequential)]
         private struct FORMATRANGE
         {
-            public IntPtr hdc, hdcTarget;
-            public RECT rc, rcPage;
+            public IntPtr hdc;
+            public IntPtr hdcTarget;
+            public RECT rc;
+            public RECT rcPage;
             public CHARRANGE chrg;
         }
 
@@ -59,21 +71,21 @@ namespace wordpadneo.Helpers
         }
 
         /// <summary>
-        /// Loads the specified DLL into the current process.
+        /// Loads the specified DLL into the currentCharacterPosition process.
         /// </summary>
         /// <param name="name">The name or path of the DLL to load.</param>
-        /// <returns>The module handle on success; <see cref="IntPtr.Zero"/> on failure.</returns>
+        /// <returns>The richEditModule handle on success; <see cref="IntPtr.Zero"/> on failure.</returns>
         [DllImport("kernel32.dll", EntryPoint = "LoadLibraryW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string name);
 
         /// <summary>
         /// Decrements the reference count of a loaded DLL and unloads it when appropriate.
         /// </summary>
-        /// <param name="module">The handle of the module to release.</param>
+        /// <param name="richEditModule">The handle of the richEditModule to release.</param>
         /// <returns><see langword="true"/> if successful.</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool FreeLibrary(IntPtr module);
+        private static extern bool FreeLibrary(IntPtr richEditModule);
 
         /// <summary>
         /// Creates a Win32 window of the specified window class.
@@ -88,7 +100,7 @@ namespace wordpadneo.Helpers
         /// <param name="height">The window height.</param>
         /// <param name="parent">The parent window handle.</param>
         /// <param name="menu">The menu handle or child window identifier.</param>
-        /// <param name="instance">The module handle associated with the window class.</param>
+        /// <param name="instance">The richEditModule handle associated with the window class.</param>
         /// <param name="param">A pointer to additional data passed during window creation.</param>
         /// <returns>The window handle on success; <see cref="IntPtr.Zero"/> on failure.</returns>
         [DllImport("user32.dll", EntryPoint = "CreateWindowExW", CharSet = CharSet.Unicode, SetLastError = true)]
@@ -100,68 +112,65 @@ namespace wordpadneo.Helpers
         /// <summary>
         /// Destroys a Win32 window.
         /// </summary>
-        /// <param name="hwnd">The handle of the window to destroy.</param>
+        /// <param name="richEditWindowHandle">The handle of the window to destroy.</param>
         /// <returns><see langword="true"/> if successful.</returns>
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool DestroyWindow(IntPtr hwnd);
+        private static extern bool DestroyWindow(IntPtr richEditWindowHandle);
 
         /// <summary>
         /// Sends the EM_SETTEXTEX message to RichEdit to set RTF data.
         /// </summary>
-        /// <param name="hwnd">The RichEdit window handle.</param>
+        /// <param name="richEditWindowHandle">The RichEdit window handle.</param>
         /// <param name="message">The message identifier to send.</param>
-        /// <param name="options">The text-setting options.</param>
+        /// <param name="textOptions">The text-setting options.</param>
         /// <param name="text">A pointer to the data to load.</param>
         /// <returns>The result returned by the window procedure.</returns>
         [DllImport("user32.dll", EntryPoint = "SendMessageW")]
-        private static extern IntPtr SendMessageSetText(IntPtr hwnd, uint message,
-            ref SETTEXTEX options, IntPtr text);
+        private static extern IntPtr SendMessageSetText(IntPtr richEditWindowHandle, uint message, ref SETTEXTEX textOptions, IntPtr text);
 
         /// <summary>
         /// Sends EM_FORMATRANGE to RichEdit to format and render the specified range.
         /// </summary>
-        /// <param name="hwnd">The RichEdit window handle.</param>
+        /// <param name="richEditWindowHandle">The RichEdit window handle.</param>
         /// <param name="message">The message identifier to send.</param>
         /// <param name="render">Nonzero to render; zero to measure only.</param>
-        /// <param name="formatRange">The rendering destination and character-range settings.</param>
+        /// <param name="formatRange">The rendering destination and character-range pageSettings.</param>
         /// <returns>The position immediately after the last processed character.</returns>
         [DllImport("user32.dll", EntryPoint = "SendMessageW")]
-        private static extern IntPtr SendMessageFormatRange(IntPtr hwnd, uint message,
-            IntPtr render, ref FORMATRANGE formatRange);
+        private static extern IntPtr SendMessageFormatRange(IntPtr richEditWindowHandle, uint message, IntPtr render, ref FORMATRANGE formatRange);
 
         /// <summary>
         /// Synchronously sends a general Win32 message to the specified window.
         /// </summary>
-        /// <param name="hwnd">The destination window handle.</param>
+        /// <param name="richEditWindowHandle">The destination window handle.</param>
         /// <param name="message">The message identifier.</param>
         /// <param name="wParam">The first message-specific parameter.</param>
         /// <param name="lParam">The second message-specific parameter.</param>
         /// <returns>The value returned by the window procedure.</returns>
         [DllImport("user32.dll", EntryPoint = "SendMessageW")]
-        private static extern IntPtr SendMessageGeneral(IntPtr hwnd, uint message,
-            IntPtr wParam, IntPtr lParam);
+        private static extern IntPtr SendMessageGeneral(IntPtr richEditWindowHandle, uint message, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// Retrieves the RichEdit selection as a CHARRANGE structure.
         /// </summary>
-        /// <param name="hwnd">The RichEdit window handle.</param>
+        /// <param name="richEditWindowHandle">The RichEdit window handle.</param>
         /// <param name="message">The message identifier to send.</param>
         /// <param name="wParam">A parameter unused by this message.</param>
         /// <param name="range">Receives the retrieved selection range.</param>
         /// <returns>The value returned by the window procedure.</returns>
         [DllImport("user32.dll", EntryPoint = "SendMessageW")]
-        private static extern IntPtr SendMessageGetSelection(IntPtr hwnd, uint message,
-            IntPtr wParam, out CHARRANGE range);
+        private static extern IntPtr SendMessageGetSelection(IntPtr richEditWindowHandle, uint message, IntPtr wParam, out CHARRANGE range);
 
         /// <summary>
-        /// Retrieves printer device information, such as DPI and printable area, from the device context.
+        /// Retrieves printer device information, such as DPI and printableBounds area, from the device context.
         /// </summary>
         /// <param name="hdc">The printer device context.</param>
         /// <param name="index">The identifier of the device capability to retrieve.</param>
         /// <returns>The requested capability value; its meaning depends on the specified item.</returns>
         [DllImport("gdi32.dll")]
         private static extern int GetDeviceCaps(IntPtr hdc, int index);
+
         /// <summary>
         /// Starts a GDI print job.
         /// </summary>
@@ -170,45 +179,56 @@ namespace wordpadneo.Helpers
         /// <returns>A positive print job ID on success; zero or a negative value on failure.</returns>
         [DllImport("gdi32.dll", EntryPoint = "StartDocW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int StartDoc(IntPtr hdc, ref DOCINFO di);
+
         /// <summary>
-        /// Completes the current GDI print job.
+        /// Completes the currentCharacterPosition GDI print job.
         /// </summary>
         /// <param name="hdc">The printer device context.</param>
         /// <returns>A positive value on success; zero or a negative value on failure.</returns>
-        [DllImport("gdi32.dll", SetLastError = true)] private static extern int EndDoc(IntPtr hdc);
+        [DllImport("gdi32.dll", SetLastError = true)]
+        private static extern int EndDoc(IntPtr hdc);
+
         /// <summary>
-        /// Aborts the current GDI print job.
+        /// Aborts the currentCharacterPosition GDI print job.
         /// </summary>
         /// <param name="hdc">The printer device context.</param>
         /// <returns>A positive value on success; zero or a negative value on failure.</returns>
-        [DllImport("gdi32.dll", SetLastError = true)] private static extern int AbortDoc(IntPtr hdc);
-        /// <summary>
+        [DllImport("gdi32.dll", SetLastError = true)]
+        private static extern int AbortDoc(IntPtr hdc);
+
         /// Starts a new page in the print job.
         /// </summary>
         /// <param name="hdc">The printer device context.</param>
         /// <returns>A positive value on success; zero or a negative value on failure.</returns>
-        [DllImport("gdi32.dll", SetLastError = true)] private static extern int StartPage(IntPtr hdc);
+        [DllImport("gdi32.dll", SetLastError = true)]
+        private static extern int StartPage(IntPtr hdc);
+
         /// <summary>
         /// Ends the current print page.
         /// </summary>
         /// <param name="hdc">The printer device context.</param>
         /// <returns>A positive value on success; zero or a negative value on failure.</returns>
-        [DllImport("gdi32.dll", SetLastError = true)] private static extern int EndPage(IntPtr hdc);
+        [DllImport("gdi32.dll", SetLastError = true)]
+        private static extern int EndPage(IntPtr hdc);
+
         /// <summary>
-        /// Saves the current drawing state of the device context.
+        /// Saves the currentCharacterPosition drawing state of the device context.
         /// </summary>
-        /// <param name="hdc">The device context whose state is to be saved.</param>
-        /// <returns>A positive identifier for the saved state on success; zero on failure.</returns>
-        [DllImport("gdi32.dll", SetLastError = true)] private static extern int SaveDC(IntPtr hdc);
+        /// <param name="hdc">The device context whose state is to be savedDeviceContext.</param>
+        /// <returns>A positive identifier for the savedDeviceContext state on success; zero on failure.</returns>
+        [DllImport("gdi32.dll", SetLastError = true)]
+        private static extern int SaveDC(IntPtr hdc);
+
         /// <summary>
-        /// Restores a previously saved drawing state of the device context.
+        /// Restores a previously savedDeviceContext drawing state of the device context.
         /// </summary>
         /// <param name="hdc">The device context whose state is to be restored.</param>
-        /// <param name="savedDc">The saved-state identifier returned by <see cref="SaveDC"/>.</param>
+        /// <param name="savedDc">The savedDeviceContext-state identifier returned by <see cref="SaveDC"/>.</param>
         /// <returns><see langword="true"/> if successful.</returns>
         [DllImport("gdi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool RestoreDC(IntPtr hdc, int savedDc);
+
         /// <summary>
         /// Changes the viewport origin of the device context.
         /// </summary>
@@ -242,190 +262,286 @@ namespace wordpadneo.Helpers
         /// <summary>
         /// Converts a length in centimeters to twips (1/1440 of an inch).
         /// </summary>
-        /// <param name="cm">The length to convert, in centimeters.</param>
+        /// <param name="centimeters">The length to convert, in centimeters.</param>
         /// <returns>The twip value rounded to the nearest integer.</returns>
-        private static int ToTwips(double cm) => checked((int)Math.Round(cm * 1440.0 / 2.54));
+        private static int ToTwips(double centimeters)
+        {
+            return checked((int)Math.Round(centimeters * 1440.0 / 2.54));
+        }
         /// <summary>
         /// Converts a pixel count to twips using the specified DPI.
         /// </summary>
         /// <param name="pixels">The number of pixels to convert.</param>
         /// <param name="dpi">The source resolution in pixels per inch.</param>
         /// <returns>The twip value rounded to the nearest integer.</returns>
-        private static int PixelsToTwips(int pixels, int dpi) =>
-            checked((int)Math.Round((double)pixels * 1440.0 / dpi));
+        private static int PixelsToTwips(int pixels, int dpi)
+        {
+            return checked((int)Math.Round((double)pixels * 1440.0 / dpi));
+        }
 
         /// <summary>
         /// Prints the RTF document in a RichEditBox using the specified printer DC and page settings.
         /// </summary>
         /// <param name="editor">The RichEditBox containing the document to print.</param>
         /// <param name="hdc">The printer device context owned by the caller.</param>
-        /// <param name="settings">The paper size and margin settings.</param>
-        /// <param name="docName">The document name shown in the print queue.</param>
+        /// <param name="pageSettings">The paper size and margin pageSettings.</param>
+        /// <param name="documentName">The document name shown in the print queue.</param>
         /// <returns><see langword="true"/> if all pages are printed successfully; <see langword="false"/> for invalid input or printing errors.</returns>
         /// <remarks>
         /// This method does not release <paramref name="hdc"/>. If an error occurs after printing starts, it attempts to abort the print job and release temporary resources.
         /// </remarks>
-        public static bool PrintRTF(RichEditBox editor, IntPtr hdc, PageSettings settings,
-            string docName = "RichEdit Document")
+        public static bool PrintRtf(RichEditBox editor, IntPtr hdc, PageSettings pageSettings, string documentName = "RichEdit Document")
         {
-            if (editor == null || settings == null || hdc == IntPtr.Zero) return false;
+            if (editor == null || pageSettings == null || hdc == IntPtr.Zero)
+            {
+                return false;
+            }
 
-            IntPtr module = IntPtr.Zero;
-            IntPtr hwnd = IntPtr.Zero;
-            IntPtr rtfBuffer = IntPtr.Zero;
-            bool docStarted = false;
-            string step = "initialization";
+            IntPtr richEditModule = IntPtr.Zero;
+            IntPtr richEditWindowHandle = IntPtr.Zero;
+            IntPtr rtfTextBuffer = IntPtr.Zero;
+            bool isPrintJobStarted = false;
+            string currentOperation = "initialization";
 
             try
             {
-                step = "get RTF";
-                editor.Document.GetRange(0, int.MaxValue)
-                    .GetText(TextGetOptions.FormatRtf, out string rtf);
-                if (string.IsNullOrWhiteSpace(rtf)) return false;
+                currentOperation = "get RTF";
+                editor.Document.GetRange(0, int.MaxValue).GetText(TextGetOptions.FormatRtf, out string rtf);
+                if (string.IsNullOrWhiteSpace(rtf))
+                {
+                    return false;
+                }
 
-                step = "load msftedit.dll";
-                module = LoadLibrary("msftedit.dll");
-                if (module == IntPtr.Zero) { LogWin32(step); return false; }
+                currentOperation = "load msftedit.dll";
+                richEditModule = LoadLibrary("msftedit.dll");
+                if (richEditModule == IntPtr.Zero)
+                {
+                    LogWin32(currentOperation);
+                    return false;
+                }
 
-                step = "create RichEdit";
-                hwnd = CreateWindowEx(0, "RICHEDIT50W", "",
-                    WS_POPUP | ES_MULTILINE | ES_AUTOVSCROLL,
-                    0, 0, 1000, 1000, IntPtr.Zero, IntPtr.Zero, module, IntPtr.Zero);
-                if (hwnd == IntPtr.Zero) { LogWin32(step); return false; }
+                currentOperation = "create RichEdit";
+                richEditWindowHandle = CreateWindowEx(0, "RICHEDIT50W", "", WS_POPUP | ES_MULTILINE | ES_AUTOVSCROLL, 0, 0, 1000, 1000, IntPtr.Zero, IntPtr.Zero, richEditModule, IntPtr.Zero);
+                if (richEditWindowHandle == IntPtr.Zero)
+                {
+                    LogWin32(currentOperation);
+                    return false;
+                }
 
-                step = "load RTF into RichEdit";
-                rtfBuffer = Marshal.StringToHGlobalUni(rtf);
-                SETTEXTEX options = new SETTEXTEX { flags = 0, codepage = 1200 };
-                IntPtr loadResult = SendMessageSetText(hwnd, EM_SETTEXTEX, ref options, rtfBuffer);
-                SendMessageGeneral(hwnd, EM_SETSEL, new IntPtr(-1), new IntPtr(-1));
-                SendMessageGetSelection(hwnd, EM_EXGETSEL, IntPtr.Zero, out CHARRANGE endRange);
+                currentOperation = "load RTF into RichEdit";
+                rtfTextBuffer = Marshal.StringToHGlobalUni(rtf);
+                SETTEXTEX textOptions = new SETTEXTEX { flags = 0, codepage = 1200 };
+                IntPtr setTextResult = SendMessageSetText(richEditWindowHandle, EM_SETTEXTEX, ref textOptions, rtfTextBuffer);
+                SendMessageGeneral(richEditWindowHandle, EM_SETSEL, new IntPtr(-1), new IntPtr(-1));
+                SendMessageGetSelection(richEditWindowHandle, EM_EXGETSEL, IntPtr.Zero, out CHARRANGE endRange);
                 int textLength = endRange.cpMax;
-                Debug.WriteLine($"[Print] EM_SETTEXTEX={loadResult}, characters={textLength}");
-                if (loadResult == IntPtr.Zero || textLength <= 0) return false;
+                Debug.WriteLine($"[Print] EM_SETTEXTEX={setTextResult}, characters={textLength}");
+                if (setTextResult == IntPtr.Zero || textLength <= 0)
+                {
+                    return false;
+                }
 
-                Marshal.FreeHGlobal(rtfBuffer);
-                rtfBuffer = IntPtr.Zero;
+                Marshal.FreeHGlobal(rtfTextBuffer);
+                rtfTextBuffer = IntPtr.Zero;
 
-                step = "printer capabilities";
+                currentOperation = "printer capabilities";
                 int dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
                 int dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
                 int printablePixelsX = GetDeviceCaps(hdc, HORZRES);
                 int printablePixelsY = GetDeviceCaps(hdc, VERTRES);
                 if (dpiX <= 0 || dpiY <= 0 || printablePixelsX <= 0 || printablePixelsY <= 0)
+                {
                     return false;
+                }
 
-                int offsetPixelsX = GetDeviceCaps(hdc, PHYSICALOFFSETX);
-                int offsetPixelsY = GetDeviceCaps(hdc, PHYSICALOFFSETY);
-                int pageWidth = ToTwips(settings.PageWidthCm);
-                int pageHeight = ToTwips(settings.PageHeightCm);
-                int left = Math.Max(ToTwips(settings.MarginLeftCm), PixelsToTwips(offsetPixelsX, dpiX));
-                int top = Math.Max(ToTwips(settings.MarginTopCm), PixelsToTwips(offsetPixelsY, dpiY));
-                int right = Math.Min(pageWidth - ToTwips(settings.MarginRightCm),
-                    PixelsToTwips(offsetPixelsX + printablePixelsX, dpiX));
-                int bottom = Math.Min(pageHeight - ToTwips(settings.MarginBottomCm),
-                    PixelsToTwips(offsetPixelsY + printablePixelsY, dpiY));
-                if (left < 0 || top < 0 || right <= left || bottom <= top) return false;
+                int physicalOffsetPixelsX = GetDeviceCaps(hdc, PHYSICALOFFSETX);
+                int physicalOffsetPixelsY = GetDeviceCaps(hdc, PHYSICALOFFSETY);
+                int pageWidth = ToTwips(pageSettings.PageWidthCm);
+                int pageHeight = ToTwips(pageSettings.PageHeightCm);
+                int left = Math.Max(ToTwips(pageSettings.MarginLeftCm), PixelsToTwips(physicalOffsetPixelsX, dpiX));
+                int top = Math.Max(ToTwips(pageSettings.MarginTopCm), PixelsToTwips(physicalOffsetPixelsY, dpiY));
+                int right = Math.Min(pageWidth - ToTwips(pageSettings.MarginRightCm), PixelsToTwips(physicalOffsetPixelsX + printablePixelsX, dpiX));
+                int bottom = Math.Min(pageHeight - ToTwips(pageSettings.MarginBottomCm), PixelsToTwips(physicalOffsetPixelsY + printablePixelsY, dpiY));
+                if (left < 0 || top < 0 || right <= left || bottom <= top)
+                {
+                    return false;
+                }
 
-                RECT page = new RECT { left = 0, top = 0, right = pageWidth, bottom = pageHeight };
-                RECT printable = new RECT { left = left, top = top, right = right, bottom = bottom };
+                RECT pageBounds = new RECT
+                {
+                    left = 0,
+                    top = 0,
+                    right = pageWidth,
+                    bottom = pageHeight
+                };
+                RECT printableBounds = new RECT
+                {
+                    left = left,
+                    top = top,
+                    right = right,
+                    bottom = bottom
+                };
 
-                SendMessageGeneral(hwnd, EM_SETTARGETDEVICE, IntPtr.Zero,
-                    (IntPtr)(right - left));
+                SendMessageGeneral(richEditWindowHandle, EM_SETTARGETDEVICE, IntPtr.Zero, (IntPtr)(right - left));
 
-                FORMATRANGE fr = new FORMATRANGE
+                FORMATRANGE formatRange = new FORMATRANGE
                 {
                     hdc = hdc,
                     hdcTarget = hdc,
-                    rcPage = page,
-                    rc = printable,
+                    rcPage = pageBounds,
+                    rc = printableBounds,
                     chrg = new CHARRANGE { cpMin = 0, cpMax = textLength }
                 };
 
-                step = "StartDoc";
-                DOCINFO info = new DOCINFO
+                currentOperation = "StartDoc";
+                DOCINFO documentInfo = new DOCINFO
                 {
                     cbSize = Marshal.SizeOf<DOCINFO>(),
-                    lpszDocName = docName
+                    lpszDocName = documentName
                 };
-                if (StartDoc(hdc, ref info) <= 0) { LogWin32(step); return false; }
-                docStarted = true;
+                if (StartDoc(hdc, ref documentInfo) <= 0)
+                {
+                    LogWin32(currentOperation);
+                    return false;
+                }
+                isPrintJobStarted = true;
 
                 int pageNumber = 0;
-                while (fr.chrg.cpMin < textLength)
+                while (formatRange.chrg.cpMin < textLength)
                 {
-                    int current = fr.chrg.cpMin;
-                    step = $"StartPage {pageNumber + 1}";
-                    if (StartPage(hdc) <= 0) { LogWin32(step); return false; }
+                    int currentCharacterPosition = formatRange.chrg.cpMin;
+                    currentOperation = $"StartPage {pageNumber + 1}";
+                    if (StartPage(hdc) <= 0)
+                    {
+                        LogWin32(currentOperation);
+                        return false;
+                    }
 
-                    int saved = SaveDC(hdc);
-                    if (saved == 0) { LogWin32("SaveDC"); return false; }
-                    int next;
+                    int savedDeviceContext = SaveDC(hdc);
+                    if (savedDeviceContext == 0)
+                    {
+                        LogWin32("SaveDC");
+                        return false;
+                    }
+                    int nextCharacterPosition;
                     try
                     {
-                        step = $"set origin page {pageNumber + 1}";
-                        if (!SetViewportOrgEx(hdc, -offsetPixelsX, -offsetPixelsY, IntPtr.Zero))
-                        { LogWin32(step); return false; }
+                        currentOperation = $"set origin page {pageNumber + 1}";
+                        if (!SetViewportOrgEx(hdc, -physicalOffsetPixelsX, -physicalOffsetPixelsY, IntPtr.Zero))
+                        {
+                            LogWin32(currentOperation);
+                            return false;
+                        }
 
-                        step = $"render page {pageNumber + 1}";
-                        fr.rc = printable;
-                        next = SendMessageFormatRange(hwnd, EM_FORMATRANGE,
-                            (IntPtr)1, ref fr).ToInt32();
+                        currentOperation = $"render page {pageNumber + 1}";
+                        formatRange.rc = printableBounds;
+                        nextCharacterPosition = SendMessageFormatRange(richEditWindowHandle, EM_FORMATRANGE, (IntPtr)1, ref formatRange).ToInt32();
                     }
                     finally
                     {
-                        if (!RestoreDC(hdc, saved)) LogWin32("RestoreDC");
+                        if (!RestoreDC(hdc, savedDeviceContext))
+                        {
+                            LogWin32("RestoreDC");
+                        }
                     }
 
-                    Debug.WriteLine($"[Print] Page {pageNumber + 1}: {current} -> {next}/{textLength}");
-                    if (next <= current || next > textLength)
+                    Debug.WriteLine($"[Print] Page {pageNumber + 1}: {currentCharacterPosition} -> {nextCharacterPosition}/{textLength}");
+                    if (nextCharacterPosition <= currentCharacterPosition || nextCharacterPosition > textLength)
                     {
                         Debug.WriteLine("[Print] Pagination failed");
                         return false;
                     }
-                    step = $"EndPage {pageNumber + 1}";
-                    if (EndPage(hdc) <= 0) { LogWin32(step); return false; }
-                    fr.chrg.cpMin = next;
+                    currentOperation = $"EndPage {pageNumber + 1}";
+                    if (EndPage(hdc) <= 0)
+                    {
+                        LogWin32(currentOperation);
+                        return false;
+                    }
+                    formatRange.chrg.cpMin = nextCharacterPosition;
                     pageNumber++;
                 }
 
-                step = "EndDoc";
-                int ended = EndDoc(hdc);
-                docStarted = false;
-                if (ended <= 0) { LogWin32(step); return false; }
+                currentOperation = "EndDoc";
+                int endDocumentResult = EndDoc(hdc);
+                isPrintJobStarted = false;
+                if (endDocumentResult <= 0)
+                {
+                    LogWin32(currentOperation);
+                    return false;
+                }
                 Debug.WriteLine($"[Print] Completed: {pageNumber} pages");
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"[Print] Failure at {step}: {ex}");
+                Debug.WriteLine($"[Print] Failure at {currentOperation}: {ex}");
                 return false;
             }
             finally
             {
-                if (hwnd != IntPtr.Zero)
+                if (richEditWindowHandle != IntPtr.Zero)
                 {
-                    try { SendMessageGeneral(hwnd, EM_FORMATRANGE, IntPtr.Zero, IntPtr.Zero); }
-                    catch (Exception ex) { Debug.WriteLine($"[Print] format-cache cleanup: {ex}"); }
+                    try
+                    {
+                        SendMessageGeneral(richEditWindowHandle, EM_FORMATRANGE, IntPtr.Zero, IntPtr.Zero);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"[Print] format-cache cleanup: {ex}");
+                    }
                 }
-                if (docStarted)
+                if (isPrintJobStarted)
                 {
-                    try { if (AbortDoc(hdc) <= 0) LogWin32("AbortDoc"); }
-                    catch (Exception ex) { Debug.WriteLine($"[Print] AbortDoc cleanup: {ex}"); }
+                    try
+                    {
+                        if (AbortDoc(hdc) <= 0)
+                        {
+                            LogWin32("AbortDoc");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"[Print] AbortDoc cleanup: {ex}");
+                    }
                 }
-                if (rtfBuffer != IntPtr.Zero)
+                if (rtfTextBuffer != IntPtr.Zero)
                 {
-                    try { Marshal.FreeHGlobal(rtfBuffer); }
-                    catch (Exception ex) { Debug.WriteLine($"[Print] buffer cleanup: {ex}"); }
+                    try
+                    {
+                        Marshal.FreeHGlobal(rtfTextBuffer);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"[Print] buffer cleanup: {ex}");
+                    }
                 }
-                if (hwnd != IntPtr.Zero)
+                if (richEditWindowHandle != IntPtr.Zero)
                 {
-                    try { if (!DestroyWindow(hwnd)) LogWin32("DestroyWindow"); }
-                    catch (Exception ex) { Debug.WriteLine($"[Print] HWND cleanup: {ex}"); }
+                    try
+                    {
+                        if (!DestroyWindow(richEditWindowHandle))
+                        {
+                            LogWin32("DestroyWindow");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"[Print] HWND cleanup: {ex}");
+                    }
                 }
-                if (module != IntPtr.Zero)
+                if (richEditModule != IntPtr.Zero)
                 {
-                    try { if (!FreeLibrary(module)) LogWin32("FreeLibrary"); }
-                    catch (Exception ex) { Debug.WriteLine($"[Print] DLL cleanup: {ex}"); }
+                    try
+                    {
+                        if (!FreeLibrary(richEditModule))
+                        {
+                            LogWin32("FreeLibrary");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"[Print] DLL cleanup: {ex}");
+                    }
                 }
             }
         }
@@ -433,10 +549,10 @@ namespace wordpadneo.Helpers
         /// <summary>
         /// Logs the most recent Win32 error code and the name of the failed operation to the debug output.
         /// </summary>
-        /// <param name="step">A string identifying the failed operation.</param>
-        private static void LogWin32(string step)
+        /// <param name="currentOperation">A string identifying the failed operation.</param>
+        private static void LogWin32(string currentOperation)
         {
-            Debug.WriteLine($"[Print] {step} failed (Win32={Marshal.GetLastWin32Error()})");
+            Debug.WriteLine($"[Print] {currentOperation} failed (Win32={Marshal.GetLastWin32Error()})");
         }
     }
 }

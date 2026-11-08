@@ -1,13 +1,12 @@
-﻿using wordpadneo.Constants;
-using wordpadneo.Dialogs;
-using wordpadneo.Helpers;
-using wordpadneo.Services;
-using Microsoft.UI.Text;
+﻿using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using Windows.Foundation;
 using Windows.Storage;
+using wordpadneo.Constants;
+using wordpadneo.Dialogs;
+using wordpadneo.Helpers;
+using wordpadneo.Services;
 
 namespace wordpadneo.Views
 {
@@ -39,9 +38,15 @@ namespace wordpadneo.Views
         /// </remarks>
         public void UpdateWindowTitle()
         {
-            string fileName = _currentFile != null
-                ? _currentFile.Name
-                : LocalizationHelper.GetString("MainWindow_DefaultDocumentName");
+            string fileName;
+            if (_currentFile != null)
+            {
+                fileName = _currentFile.Name;
+            }
+            else
+            {
+                fileName = LocalizationHelper.GetString("MainWindow_DefaultDocumentName");
+            }
             string appName = LocalizationHelper.GetString("Common_AppName");
             Title = $"{fileName} - {appName}";
         }
@@ -56,7 +61,10 @@ namespace wordpadneo.Views
         /// </remarks>
         private void ResetUndoLimit()
         {
-            if (editor?.Document == null) return;
+            if (editor?.Document == null)
+            {
+                return;
+            }
 
             editor.Document.UndoLimit = 0;
             editor.Document.UndoLimit = 500;

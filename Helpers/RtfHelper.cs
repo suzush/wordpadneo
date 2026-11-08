@@ -1,9 +1,8 @@
-﻿
-using wordpadneo.Constants;
-using wordpadneo.Models;
-using Microsoft.UI.Text;
+﻿using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Controls;
 using System.Text.RegularExpressions;
+using wordpadneo.Constants;
+using wordpadneo.Models;
 
 namespace wordpadneo.Helpers
 {
@@ -22,7 +21,7 @@ namespace wordpadneo.Helpers
         /// Paper width/height and margins are parsed from twips and converted to centimeters.
         /// If a value is not present in the RTF content, the current page setting is preserved.
         /// </remarks>
-        public static void SetFormattedRtf(
+        public static void LoadRtfDocument(
             RichEditBox editor,
             string rtfContent,
             PageSettings pageSettings)
@@ -99,7 +98,7 @@ namespace wordpadneo.Helpers
         /// <remarks>
         /// Page setting values are converted from centimeters to twips before writing to the header.
         /// </remarks>
-        public static string GetFormattedRtf(
+        public static string GetRtfDocument(
             RichEditBox editor,
             PageSettings pageSettings)
         {

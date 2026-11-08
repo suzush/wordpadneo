@@ -1,6 +1,4 @@
-﻿using wordpadneo.Constants;
-using wordpadneo.Helpers;
-using Microsoft.Graphics.Canvas.Text;
+﻿using Microsoft.Graphics.Canvas.Text;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -11,6 +9,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Windows.System;
 using WinRT.Interop;
+using wordpadneo.Constants;
+using wordpadneo.Helpers;
 
 namespace wordpadneo.Views
 {
@@ -66,7 +66,10 @@ namespace wordpadneo.Views
         /// <remarks>Converts page dimensions and horizontal margins from centimeters to pixels, then redraws the ruler.</remarks>
         private void UpdatePageLayout()
         {
-            if (editor == null || rulerCanvas == null) return;
+            if (editor == null || rulerCanvas == null)
+            {
+                return;
+            }
 
             double pageWidthPx = _pageSettings.PageWidthCm * PageConstants.PxPerCm;
 
@@ -114,16 +117,34 @@ namespace wordpadneo.Views
         /// <remarks>Skips processing while the update-in-progress flag is set.</remarks>
         private void Editor_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (_isUpdating) return;
+            if (_isUpdating)
+            {
+                return;
+            }
 
             ITextSelection selectedText = editor.Document.Selection;
-            if (selectedText == null) return;
+            if (selectedText == null)
+            {
+                return;
+            }
 
             ITextCharacterFormat characterFormat = selectedText.CharacterFormat;
-            if (boldButton != null) boldButton.IsChecked = (characterFormat.Bold == FormatEffect.On);
-            if (italicButton != null) italicButton.IsChecked = (characterFormat.Italic == FormatEffect.On);
-            if (underlineButton != null) underlineButton.IsChecked = (characterFormat.Underline != UnderlineType.None);
-            if (strikethroughButton != null) strikethroughButton.IsChecked = (characterFormat.Strikethrough == FormatEffect.On);
+            if (boldButton != null)
+            {
+                boldButton.IsChecked = (characterFormat.Bold == FormatEffect.On);
+            }
+            if (italicButton != null)
+            {
+                italicButton.IsChecked = (characterFormat.Italic == FormatEffect.On);
+            }
+            if (underlineButton != null)
+            {
+                underlineButton.IsChecked = (characterFormat.Underline != UnderlineType.None);
+            }
+            if (strikethroughButton != null)
+            {
+                strikethroughButton.IsChecked = (characterFormat.Strikethrough == FormatEffect.On);
+            }
 
             if (fontComboBox != null && fontComboBox.SelectedItem?.ToString() != characterFormat.Name)
             {
@@ -136,10 +157,22 @@ namespace wordpadneo.Views
             }
 
             ITextParagraphFormat paragraphFormat = selectedText.ParagraphFormat;
-            if (alignLeftButton != null) alignLeftButton.IsChecked = (paragraphFormat.Alignment == ParagraphAlignment.Left);
-            if (alignCenterButton != null) alignCenterButton.IsChecked = (paragraphFormat.Alignment == ParagraphAlignment.Center);
-            if (alignRightButton != null) alignRightButton.IsChecked = (paragraphFormat.Alignment == ParagraphAlignment.Right);
-            if (alignJustifyButton != null) alignJustifyButton.IsChecked = (paragraphFormat.Alignment == ParagraphAlignment.Justify);
+            if (alignLeftButton != null)
+            {
+                alignLeftButton.IsChecked = (paragraphFormat.Alignment == ParagraphAlignment.Left);
+            }
+            if (alignCenterButton != null)
+            {
+                alignCenterButton.IsChecked = (paragraphFormat.Alignment == ParagraphAlignment.Center);
+            }
+            if (alignRightButton != null)
+            {
+                alignRightButton.IsChecked = (paragraphFormat.Alignment == ParagraphAlignment.Right);
+            }
+            if (alignJustifyButton != null)
+            {
+                alignJustifyButton.IsChecked = (paragraphFormat.Alignment == ParagraphAlignment.Justify);
+            }
 
             UpdatePageLayout();
         }
@@ -210,7 +243,14 @@ namespace wordpadneo.Views
             if (selectedText != null)
             {
                 ITextCharacterFormat characterFormat = selectedText.CharacterFormat;
-                characterFormat.Bold = boldButton.IsChecked == true ? FormatEffect.On : FormatEffect.Off;
+                if (boldButton.IsChecked == true)
+                {
+                    characterFormat.Bold = FormatEffect.On;
+                }
+                else
+                {
+                    characterFormat.Bold = FormatEffect.Off;
+                }
                 selectedText.CharacterFormat = characterFormat;
             }
         }
@@ -226,7 +266,14 @@ namespace wordpadneo.Views
             if (selectedText != null)
             {
                 ITextCharacterFormat characterFormat = selectedText.CharacterFormat;
-                characterFormat.Italic = italicButton.IsChecked == true ? FormatEffect.On : FormatEffect.Off;
+                if (italicButton.IsChecked == true)
+                {
+                    characterFormat.Italic = FormatEffect.On;
+                }
+                else
+                {
+                    characterFormat.Italic = FormatEffect.Off;
+                }
                 selectedText.CharacterFormat = characterFormat;
             }
         }
@@ -242,9 +289,14 @@ namespace wordpadneo.Views
             if (selectedText != null)
             {
                 ITextCharacterFormat characterFormat = selectedText.CharacterFormat;
-                characterFormat.Underline = (underlineButton.IsChecked == true)
-                    ? UnderlineType.Single
-                    : UnderlineType.None;
+                if (underlineButton.IsChecked == true)
+                {
+                    characterFormat.Underline = UnderlineType.Single;
+                }
+                else
+                {
+                    characterFormat.Underline = UnderlineType.None;
+                }
                 selectedText.CharacterFormat = characterFormat;
             }
         }
@@ -260,7 +312,14 @@ namespace wordpadneo.Views
             if (selectedText != null)
             {
                 ITextCharacterFormat characterFormat = selectedText.CharacterFormat;
-                characterFormat.Strikethrough = strikethroughButton.IsChecked == true ? FormatEffect.On : FormatEffect.Off;
+                if (strikethroughButton.IsChecked == true)
+                {
+                    characterFormat.Strikethrough = FormatEffect.On;
+                }
+                else
+                {
+                    characterFormat.Strikethrough = FormatEffect.Off;
+                }
                 selectedText.CharacterFormat = characterFormat;
             }
         }
@@ -486,7 +545,7 @@ namespace wordpadneo.Views
                 _lastSearchKeyword = keyword;
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    SearchTextNext(keyword);
+                    FindNextOccurrence(keyword);
                 }
             }
             else if (result == ContentDialogResult.Secondary)
@@ -495,7 +554,7 @@ namespace wordpadneo.Views
                 _lastSearchKeyword = keyword;
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    SearchTextPrevious(keyword);
+                    FindPreviousOccurrence(keyword);
                 }
             }
         }
@@ -505,7 +564,7 @@ namespace wordpadneo.Views
         /// </summary>
         /// <param name="keyword">The text to search for.</param>
         /// <remarks>If no match is found before the end of the document, wraps to the beginning and selects the match.</remarks>
-        private void SearchTextNext(string keyword)
+        private void FindNextOccurrence(string keyword)
         {
             var document = editor.Document;
             int startPos = document.Selection.EndPosition;
@@ -535,7 +594,7 @@ namespace wordpadneo.Views
         /// </summary>
         /// <param name="keyword">The text to search for.</param>
         /// <remarks>If no earlier match is found, wraps to the end of the document and selects the match.</remarks>
-        private void SearchTextPrevious(string keyword)
+        private void FindPreviousOccurrence(string keyword)
         {
             var document = editor.Document;
             int startPos = document.Selection.StartPosition - 1;
@@ -600,7 +659,10 @@ namespace wordpadneo.Views
             string findKey = findBox.Text;
             string replaceKey = replaceBox.Text;
 
-            if (string.IsNullOrEmpty(findKey)) return;
+            if (string.IsNullOrEmpty(findKey))
+            {
+                return;
+            }
 
             _lastSearchKeyword = findKey;
             _lastReplaceKeyword = replaceKey;
@@ -710,17 +772,30 @@ namespace wordpadneo.Views
             {
                 int hr = PrintDlgEx(ref pdex);
                 System.Diagnostics.Debug.WriteLine($"[PrintDlgEx] HRESULT=0x{hr:X8}, size={pdex.lStructSize}");
-                if (hr != 0) return;
-                if (pdex.dwResultAction != PD_RESULT_PRINT) return;
+                if (hr != 0)
+                {
+                    return;
+                }
+                if (pdex.dwResultAction != PD_RESULT_PRINT)
+                {
+                    return;
+                }
                 if (pdex.hDC == IntPtr.Zero)
                 {
                     System.Diagnostics.Debug.WriteLine("[PrintDlgEx] Print selected, but no printer HDC");
                     return;
                 }
 
-                bool printed = PrintHelper.PrintRTF(
+                bool printed = PrintHelper.PrintRtf(
                     editor, pdex.hDC, _pageSettings, LocalizationHelper.GetString("MainWindow_PrintJobName"));
-                System.Diagnostics.Debug.WriteLine(printed ? "Printing completed" : "Printing failed");
+                if (printed)
+                {
+                    System.Diagnostics.Debug.WriteLine("Printing completed");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("Printing failed");
+                }
             }
             catch (Exception ex)
             {
@@ -731,19 +806,25 @@ namespace wordpadneo.Views
                 if (pdex.hDC != IntPtr.Zero)
                 {
                     if (!DeleteDC(pdex.hDC))
+                    {
                         System.Diagnostics.Debug.WriteLine("[PrintDlgEx] DeleteDC failed");
+                    }
                     pdex.hDC = IntPtr.Zero;
                 }
                 if (pdex.hDevMode != IntPtr.Zero)
                 {
                     if (GlobalFree(pdex.hDevMode) != IntPtr.Zero)
+                    {
                         System.Diagnostics.Debug.WriteLine("[PrintDlgEx] GlobalFree(hDevMode) failed");
+                    }
                     pdex.hDevMode = IntPtr.Zero;
                 }
                 if (pdex.hDevNames != IntPtr.Zero)
                 {
                     if (GlobalFree(pdex.hDevNames) != IntPtr.Zero)
+                    {
                         System.Diagnostics.Debug.WriteLine("[PrintDlgEx] GlobalFree(hDevNames) failed");
+                    }
                     pdex.hDevNames = IntPtr.Zero;
                 }
             }

@@ -1,13 +1,12 @@
-﻿
-using wordpadneo.Constants;
-using wordpadneo.Models;
+﻿using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Text;
 using System;
 using Windows.Foundation;
+using wordpadneo.Constants;
+using wordpadneo.Models;
 
 namespace wordpadneo.Helpers
 {
@@ -39,7 +38,10 @@ namespace wordpadneo.Helpers
                 PageSettings pageSettings,
                 Action<FrameworkElement> attachMarkerEvents)
             {
-                if (canvas == null || editor == null) return;
+                if (canvas == null || editor == null)
+                {
+                    return;
+                }
 
                 canvas.Children.Clear();
 
@@ -57,12 +59,24 @@ namespace wordpadneo.Helpers
                     bool isMajor = (stepCount % 4 == 0);
                     bool isHalf = (stepCount % 2 == 0);
 
-                    double lineY = isMajor ? 12 : (isHalf ? 16 : 20);
+                    double tickStartY;
+                    if (isMajor)
+                    {
+                        tickStartY = 12;
+                    }
+                    else if (isHalf)
+                    {
+                        tickStartY = 16;
+                    }
+                    else
+                    {
+                        tickStartY = 20;
+                    }
 
                     Line line = new Line
                     {
                         X1 = x,
-                        Y1 = lineY,
+                        Y1 = tickStartY,
                         X2 = x,
                         Y2 = canvas.ActualHeight - 2,
                         Stroke = lineBrush,
@@ -73,15 +87,25 @@ namespace wordpadneo.Helpers
                     if (isMajor)
                     {
                         int cmValue = stepCount / 4;
-                        TextBlock txt = new TextBlock
+                        TextBlock tickLabel = new TextBlock
                         {
                             Text = cmValue.ToString(),
                             FontSize = 9,
                             Foreground = textBrush
                         };
-                        Canvas.SetLeft(txt, x - (cmValue >= 10 ? 6 : 3));
-                        Canvas.SetTop(txt, 0);
-                        canvas.Children.Add(txt);
+                        double labelOffsetPx;
+                        if (cmValue >= 10)
+                        {
+                            labelOffsetPx = 6;
+                        }
+                        else
+                        {
+                            labelOffsetPx = 3;
+                        }
+
+                        Canvas.SetLeft(tickLabel, x - labelOffsetPx);
+                        Canvas.SetTop(tickLabel, 0);
+                        canvas.Children.Add(tickLabel);
                     }
 
                     stepCount++;
