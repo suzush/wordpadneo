@@ -1,5 +1,13 @@
 # WordPad Neo
 
+# Download
+
+<a href="https://get.microsoft.com/installer/download/9p00lx9sbdn5?referrer=appbadge" target="_self" >
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>
+
+---
+
 **🚧 Work in Progress / 現在開発中 🚧**
 
 > **⚠️ This project is under active development.**
